@@ -1,9 +1,8 @@
-<nav>
-  <ul>
-    <li>{{ 'dashboard' | translate }}</li>
-    <li>Dashboard</li>
-    <li>Dashboard</li>
-    <li>Dashboard</li>
-    <li>Dashboard</li>
-  </ul>
+<nav class="flex flex-col border-1 rounded-[0.5rem] p-[1rem] h-screen gap-[0.5rem] hover:bg-gray-200">
+  @for (item of menuItems(); track item.id) {
+    <a class="flex items-center w-full cursor-pointer" [routerLink]="item.path">
+      <q-lottie-icon class="mr-[1rem]"  width="2.5rem" height="2.5rem" [iconSource]="item.iconUrl"></q-lottie-icon>
+      <div class="flex items-center">{{item.name}}</div>
+    </a>
+  }
 </nav>

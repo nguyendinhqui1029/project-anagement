@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
     provideClientHydration(withIncrementalHydration(), withEventReplay()),
-    provideAnimationsAsync(),
+    provideAnimationsAsync('animations'),
     providePrimeNG({
       theme: {
         preset: definePreset(Aura, {

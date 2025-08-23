@@ -1,3 +1,7 @@
 {
-  "dashboard": "Dashboard1"
+  "dashboard": "Dashboard",
+  "projects": "Projects",
+  "meetings": "Meetings",
+  "settings":"Settings",
+  "mini_game":"Mini Games"
 }

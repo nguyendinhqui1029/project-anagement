@@ -1,4 +1,4 @@
-import { Component, input, NgZone, signal } from '@angular/core';
+import { Component, computed, input, NgZone, signal } from '@angular/core';
 import { AnimationItem, BMCompleteEvent, BMDestroyEvent, BMSegmentStartEvent } from 'lottie-web';
 import { AnimationOptions, BMCompleteLoopEvent, LottieComponent, BMEnterFrameEvent, BMRenderFrameErrorEvent, BMConfigErrorEvent } from 'ngx-lottie';
 
@@ -10,25 +10,28 @@ import { AnimationOptions, BMCompleteLoopEvent, LottieComponent, BMEnterFrameEve
   styleUrl: './lottie-icon.component.scss'
 })
 export class LottieIconComponent {
-  width = input<string>('50px');
-  height = input<string>('50px');
-  options = input<AnimationOptions&{trigger: 'click'|'hover'|'loop-hover'}>({
-    path: '/assets/icons/animation/Loading.json',
+  trigger= input<'click'|'hover'|'loop-hover'>('hover')
+  width = input<string>('40px');
+  height = input<string>('40px');
+  iconSource = input<string>();
+  options = input<AnimationOptions>({
+    path: '/assets/icons/animation/community.json',
     loop: true,
-    autoplay: false,
-    trigger: 'hover'
+    renderer: 'svg',
+    autoplay: false
   });
 
   styles = input<Partial<CSSStyleDeclaration>>({
-    maxWidth: '50px',
     margin: '0 auto',
     cursor: 'pointer'
   });
   class= input<string>();
-  optionsConfig = signal<AnimationOptions&{trigger: 'click'|'hover'|'loop-hover'}>(this.options());
+  optionsConfig = computed(()=>({...this.options(), path: this.iconSource()}));
 
   private animationItem!: AnimationItem;
   private isAnimationCompleted = signal<boolean>(true);
+
+
 
   private play() {
     this.animationItem.play();
@@ -50,22 +53,22 @@ export class LottieIconComponent {
     if(!this.isAnimationCompleted()){
       return;
     }
-    if(['hover', 'loop-hover'].includes(this.options().trigger)) {
-      this.animationItem.setLoop(this.options().trigger === 'loop-hover');
+    if(['hover', 'loop-hover'].includes(this.trigger())) {
+      this.animationItem.setLoop(this.trigger() === 'loop-hover');
       this.isAnimationCompleted.update(()=>false);
       this.play();
     }
   }
 
   onMouseLeave() {
-    if(['loop-hover'].includes(this.options().trigger)) {
+    if(['loop-hover'].includes(this.trigger())) {
       this.stop();
     }
     this.isAnimationCompleted.update(()=>true);
   }
   
   onLottieClick() {
-    if(this.options().trigger === 'click') {
+    if(this.trigger() === 'click') {
       if(this.animationItem.loop) {
         this.animationItem.setLoop(false);
       }
@@ -99,6 +102,7 @@ export class LottieIconComponent {
       console.log('domLoaded')
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   enterFrame(event: BMEnterFrameEvent) {
       // console.log('enterFrame', event)
   }
@@ -108,7 +112,7 @@ export class LottieIconComponent {
   }
 
   complete(event: BMCompleteEvent) {
-    if( ['click','hover'].includes(this.options().trigger)) {
+    if( ['click','hover'].includes(this.trigger())) {
       this.stop();
       return;
     }

@@ -14,8 +14,6 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     rules: {
-      "@angular-eslint/template/click-events-have-key-events": "off",
-      "@angular-eslint/template/interactive-supports-focus": "off",
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -32,10 +30,13 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      '@angular-eslint/template/click-events-have-key-events': 'off',
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+      '@angular-eslint/template/mouse-events-have-key-events': 'off'
     },
   },
   {
-    files: ["**/*.html"],
+    files: ['*.ts', '*.html'],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
