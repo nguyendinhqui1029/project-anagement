@@ -1,0 +1,9 @@
+<div class="grid h-screen transition-[grid-template-columns] duration-300 ease-in-out" [style.gridTemplateColumns]="gridTemplate()">
+  <div>
+    <q-sidebar></q-sidebar>
+  </div>
+  <div>Right
+    <p-button label="Check" (click)="handleClick()"/>
+    <router-outlet />
+  </div>
+</div>

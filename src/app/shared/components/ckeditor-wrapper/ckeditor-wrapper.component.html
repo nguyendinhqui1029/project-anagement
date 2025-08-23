@@ -1,0 +1,4 @@
+@defer (when Editor){
+  <ckeditor (change)="dataEditorChange($event)" (blur)="handleOnTouched()" [editor]="Editor"
+          [disabled]="isDisabled" [data]="value" [config]="config"  />
+} 

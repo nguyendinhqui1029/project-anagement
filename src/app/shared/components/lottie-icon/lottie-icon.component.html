@@ -1,0 +1,24 @@
+
+<div class="block w-fit h-fit" 
+  (mouseover)="onMouseOver()" 
+  (mouseleave)="onMouseLeave()"
+  (click)="onLottieClick()">
+  <ng-lottie
+    [width]="width()"
+    [height]="height()"
+    containerClass="max-w-fit max-h-fit {{class()}}"
+    [styles]="styles()"
+    [options]="optionsConfig()"
+    (animationCreated)="animationCreated($event)"
+    (configReady)="configReady()"
+    (dataReady)="dataReady()"
+    (domLoaded)="domLoaded()"
+    (enterFrame)="enterFrame($event)"
+    (segmentStart)="segmentStart($event)"
+    (complete)="complete($event)"
+    (loopComplete)="onLoopComplete($event)"
+    (destroy)="destroy($event)"
+    (error)="error($event)"
+    
+  />
+</div>
