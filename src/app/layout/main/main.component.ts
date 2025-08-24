@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 export class MainComponent implements OnInit{
   layoutService: LayoutService = inject(LayoutService);
   sidebarStatus = signal(true);
-  gridTemplate = computed(()=> this.sidebarStatus() ? '18rem 1fr' : '5rem 1fr');
+  gridTemplate = computed(()=> this.sidebarStatus() ? '18rem 1fr' : '4.25rem 1fr');
 
   ngOnInit(): void {
     this.layoutService.sidebar$.subscribe(value=> this.sidebarStatus.update(()=>value));

@@ -1,17 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { LayoutService } from '@core/services/layout.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LottieIconComponent } from '@shared/components/lottie-icon/lottie-icon.component';
 
 @Component({
   selector: 'q-sidebar',
-  imports: [CommonModule,TranslateModule, RouterLink, LottieIconComponent],
+  imports: [CommonModule,TranslateModule, RouterLink, LottieIconComponent, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit{
   private translationService = inject(TranslateService);
+  layoutService: LayoutService = inject(LayoutService);
+  sidebarStatus = signal(true);
+  
+  ngOnInit(): void {
+   this.layoutService.sidebar$.subscribe((value: boolean)=>this.sidebarStatus.update(()=>value))
+  }
   menuItems = computed(()=>[
     {
       id: 'DASHBOARD',
@@ -23,25 +30,25 @@ export class SidebarComponent {
       id: 'PROJECTS',
       iconUrl: '/assets/icons/animation/project.json',
       name: this.translationService.instant('projects'),
-      path: ''
+      path: 'projects'
     },
     {
       id: 'MEETINGS',
       iconUrl: '/assets/icons/animation/community.json',
       name: this.translationService.instant('meetings'),
-      path: ''
+      path: 'meetings'
     },
     {
       id: 'SETTINGS',
       iconUrl: '/assets/icons/animation/setting.json',
       name: this.translationService.instant('settings'),
-      path: ''
+      path: 'settings'
     },
     {
       id: 'MINI_GAMES',
       iconUrl: '/assets/icons/animation/gamepad.json',
       name: this.translationService.instant('mini_game'),
-      path: ''
+      path: 'mini-games'
     }
   ])
 }
