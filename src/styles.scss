@@ -10,6 +10,8 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+  margin: 0;
+  padding: 0;
 }
 
 .poppins-thin {
@@ -118,4 +120,24 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: 900;
   font-style: italic;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px; /* độ dày */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* nền */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #536DFE; /* màu chính */
+  border-radius: 9999px;
+  padding-left: 10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3d5afe; /* hover */
 }

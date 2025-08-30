@@ -21,12 +21,6 @@ export class SidebarComponent implements OnInit{
   }
   menuItems = computed(()=>[
     {
-      id: 'DASHBOARD',
-      iconUrl: '/assets/icons/animation/dashboard.json',
-      name: this.translationService.instant('dashboard'),
-      path: ''
-    },
-    {
       id: 'PROJECTS',
       iconUrl: '/assets/icons/animation/project.json',
       name: this.translationService.instant('projects'),

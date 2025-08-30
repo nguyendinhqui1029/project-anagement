@@ -3,5 +3,14 @@
   "projects": "Projects",
   "meetings": "Meetings",
   "settings":"Settings",
-  "mini_game":"Mini Games"
+  "mini_game":"Mini Games",
+  "project_management": "Projects Management",
+  "task_management": "Task Management",
+  "upcoming_meetings": "Upcoming Meetings",
+  "fe_status": "FE Status",
+  "be_status": "BE Status",
+  "qa_status": "QA Status",
+  "planning_document":"Planning Document",
+  "sprint_and_retro":"Sprint & Retro",
+  "project_overview":"Project Overview"
 }

@@ -10,7 +10,7 @@ import { AnimationOptions, BMCompleteLoopEvent, LottieComponent, BMEnterFrameEve
   styleUrl: './lottie-icon.component.scss'
 })
 export class LottieIconComponent {
-  trigger= input<'click'|'hover'|'loop-hover'>('hover')
+  trigger= input<'click'|'hover'|'loop-hover'| 'loop'>('hover')
   width = input<string>('40px');
   height = input<string>('40px');
   iconSource = input<string>();
@@ -32,7 +32,6 @@ export class LottieIconComponent {
   private isAnimationCompleted = signal<boolean>(true);
 
 
-
   private play() {
     this.animationItem.play();
   }
@@ -49,7 +48,10 @@ export class LottieIconComponent {
     this.play();
   }
 
-  onMouseOver() {    
+  onMouseOver() {  
+    if(this.trigger() === 'loop') {
+      return;
+    }  
     if(!this.isAnimationCompleted()){
       return;
     }
@@ -61,6 +63,9 @@ export class LottieIconComponent {
   }
 
   onMouseLeave() {
+    if(this.trigger() === 'loop') {
+      return;
+    } 
     if(['loop-hover'].includes(this.trigger())) {
       this.stop();
     }
@@ -78,6 +83,12 @@ export class LottieIconComponent {
 
   animationCreated(animationItem: AnimationItem): void {
     this.animationItem = animationItem;
+    if(this.trigger() === 'loop') {
+      this.animationItem.setLoop(true);
+       this.animationItem.autoplay = true;
+       this.animationItem.playSpeed = 0.1;
+       this.play();
+    }
   }
 
 

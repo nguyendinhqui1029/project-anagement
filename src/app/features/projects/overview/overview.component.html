@@ -1,0 +1,112 @@
+<div class="flex rounded-xl flex-col">
+  <q-breadcrumb [items]="items()"></q-breadcrumb>
+  <div class="mt-4 grid grid-cols-1 lg:grid-cols-6 grid-rows-[auto_auto_auto_auto_auto_auto] gap-4">
+
+    <!-- Project Overview -->
+    <div class="bg-white rounded-2xl shadow p-4 lg:col-span-4">
+      <q-header [isShowNavigate]="false" title="{{'project_overview'| translate}}"></q-header>
+      <div class="flex gap-4 mt-2">
+         <p-progressbar class="w-full" [value]="10" unit="%"/>
+         <div class="min-w-fit grid grid-cols-2 border-2 rounded-md p-2 gap-2">
+            <q-lottie-icon  width="3rem" height="3rem" iconSource="/assets/icons/animation/advantage.json"></q-lottie-icon>
+            <q-lottie-icon  width="3rem" height="3rem" iconSource="/assets/icons/animation/calculator.json"></q-lottie-icon>
+            <q-lottie-icon  width="3rem" height="3rem" iconSource="/assets/icons/animation/schedule.json"></q-lottie-icon>
+            <q-lottie-icon  width="3rem" height="3rem" iconSource="/assets/icons/animation/team.json"></q-lottie-icon>
+          </div>
+      </div>
+    </div>
+
+    <!-- Sprint & Retro -->
+    <div class="bg-white rounded-2xl shadow p-4 lg:row-span-1 lg:col-span-2">
+      <q-header (handleNavigateClick)="handleNavigateClick('')" title="{{'sprint_and_retro'| translate}}"></q-header>
+      <div class="flex min-w-fit mt-2">
+        <div class="border-r-4 border-solid border-gray-200 p-2">
+          <h1 class="font-semibold">
+          Sprint 5
+          </h1>
+          <span class="text-gray-500">2 days until retro</span>
+        </div>
+        <div class="p-2 min-w-fit">
+          <span class="text-gray-500">Next retro</span>
+          <h1 class="font-semibold">
+            June 25
+          </h1>
+        </div>
+      </div>
+    </div>
+
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:col-span-full">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <q-header  title="{{'planning_document'| translate}}"></q-header>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow p-4">
+        <q-header title="{{'qa_status'| translate}}"></q-header>
+        <div class="flex min-w-fit mt-2">
+          <div class="w-full flex gap-4 border-r-4 border-solid border-gray-200 p-2 flex-wrap">
+            <div class="flex flex-col min-w-fit gap-2">
+              <span class="text-gray-500">Test Coverage</span>
+              <h1 class="font-semibold">
+                85%
+              </h1>
+            </div>
+            <div class="flex flex-col min-w-fit gap-2">
+              <span class="text-gray-500">Bug</span>
+              <h1 class="font-semibold">
+                1000000
+              </h1>
+            </div>
+            <div class="flex flex-col min-w-fit gap-2">
+              <span class="text-gray-500">Running</span>
+              <h1 class="font-semibold">
+                200000
+              </h1>
+            </div>
+          </div>
+          <div class="p-2 min-w-fit gap-2 flex flex-col">
+            <span class="text-gray-500">Total test cases</span>
+            <h1 class="font-semibold">
+             20000
+            </h1>
+          </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:col-span-4">
+      <div class="bg-white rounded-2xl shadow p-4">
+        <q-header  title="{{'be_status'| translate}}"></q-header>
+      </div>
+      <div class="bg-white rounded-2xl shadow p-4">
+          <q-header  title="{{'fe_status'| translate}}"></q-header>
+      </div>
+    </div>
+
+    <!-- Upcoming Meetings -->
+    <div class="bg-white rounded-2xl shadow p-4 lg:col-span-2 lg:row-span-2 flex flex-col">
+      <q-header  title="{{'upcoming_meetings'| translate}}"></q-header>
+      <div class="flex flex-col gap-2 mt-2">
+        <div class="border-2 rounded-md  border-solid p-2 gap-1 flex items-end">
+          <div class="flex gap-2 flex-col w-full">
+            <h3 class="font-semibold line-clamp-1">Sprint planning </h3>
+            <p class="text-xs text-gray-400">Today, 2:00 PM</p>
+          </div>
+          <div class="flex flex-col items-center justify-center min-w-fit">
+            <q-lottie-icon class="cursor-pointer" trigger="loop" width="2rem" height="2rem" iconSource="/assets/icons/animation/time.json"></q-lottie-icon>
+            <small class="text-xs text-gray-400">15 minutes</small>
+          </div>
+        </div>
+        <div class="border-2 rounded-md  border-solid p-2 gap-1 flex flex-col">
+          <h3 class="font-semibold">Sprint planning</h3>
+          <p class="text-xs text-gray-400">Today, 2:00 PM</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Task Progress & QA -->
+    <div class="bg-white rounded-2xl shadow p-4 lg:col-span-4">
+     <q-header title="{{'task_management'| translate}}"></q-header>
+    </div>
+  </div>
+
+</div>

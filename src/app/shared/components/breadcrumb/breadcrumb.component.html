@@ -1,0 +1,13 @@
+<div class="border-2 rounded-xl bg-white flex flex-col overflow-hidden">
+    <p-breadcrumb [model]="items()" [home]="home" >
+       <ng-template pTemplate="home" let-home>
+        @if(home.icon) {
+          <a [routerLink]="home.routerLink">
+            <q-lottie-icon class="cursor-pointer" width="2rem" height="2rem" [iconSource]="home.icon"></q-lottie-icon>
+          </a>
+        } @else {
+          <a class="cursor-pointer" [routerLink]="home.routerLink">{{home.label}}</a>
+        }
+      </ng-template>
+    </p-breadcrumb>
+</div>

@@ -6,10 +6,7 @@ export const LayoutRouters: Routes = [
     path: '', 
     component: MainComponent,
     children: [
-      { 
-        path: '', 
-        loadChildren: () => import('@features/dashboard/dashboard.routes').then(m => m.DashboardRouters) 
-      },
+      { path: '', redirectTo: '/projects', pathMatch: 'full' },
       { 
         path: 'projects', 
         loadChildren: () => import('@features/projects/projects.routes').then(m => m.ProjectsRouters) 

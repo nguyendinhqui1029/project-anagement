@@ -1,0 +1,8 @@
+<div class="relative flex justify-between items-start">
+  <h2 class="text-xl font-semibold">{{title()}}</h2>
+  @if(isShowNavigate()) {
+    <div class="absolute z-10 -top-2 -right-3 cursor-pointer" (click)="handleNavigateClick.emit()">  
+      <q-lottie-icon  width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/arrow.json"></q-lottie-icon>
+    </div> 
+  } 
+</div>
