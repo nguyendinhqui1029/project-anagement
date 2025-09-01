@@ -1,5 +1,5 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes),
+    provideRouter(routes, withPreloading(PreloadAllModules)),
     provideClientHydration(withIncrementalHydration(), withEventReplay()),
     provideAnimationsAsync('animations'),
     providePrimeNG({
@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
               200: '#9FA8FF',
               300: '#7985FF',
               400: '#5A6DFF',
-              500: '#536DFE',
+              500: '#304FFE',
               600: '#3D54E6',
               700: '#2F42B3',
               800: '#223080',

@@ -1,0 +1,14 @@
+<div #boardContainer class="flex gap-4 overflow-auto pb-1" [style.height]="`calc(100vh - ${containerTop()}px)`">
+  @for (item of statusColumns(); track item.status) {
+  <div class="flex flex-col rounded-xl bg-white shadow-md w-72 min-w-72 !bg-tw-secondary-300">
+    <h2 class="p-2 text-xl font-semibold">{{item.status.toLowerCase() | translate}}</h2>
+    <div cdkDropList [id]="item.status" [cdkDropListData]="item.items"
+      [cdkDropListConnectedTo]="connectedDropLists(item.status)" class="h-full p-2 flex flex-col gap-2 overflow-auto"
+      (cdkDropListDropped)="drop($event)">
+      @for (ticketItem of item.items; track ticketItem) {
+      <q-ticket-card cdkDrag (cdkDragMoved)="onDragMoved($event, boardContainer)" [item]="ticketItem"></q-ticket-card>
+      }
+    </div>
+  </div>
+  }
+</div>

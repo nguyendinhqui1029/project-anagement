@@ -2,11 +2,11 @@
     <p-breadcrumb [model]="items()" [home]="home" >
        <ng-template pTemplate="home" let-home>
         @if(home.icon) {
-          <a [routerLink]="home.routerLink">
-            <q-lottie-icon class="cursor-pointer" width="2rem" height="2rem" [iconSource]="home.icon"></q-lottie-icon>
+          <a [routerLink]="home.routerLink" aria-label="Home">
+            <q-lottie-icon class="cursor-pointer" width="2,5rem" height="2.5rem" [iconSource]="home.icon"></q-lottie-icon>
           </a>
         } @else {
-          <a class="cursor-pointer" [routerLink]="home.routerLink">{{home.label}}</a>
+          <a class="cursor-pointer text-xl" [aria-label]="home.label" [routerLink]="home.routerLink">{{home.label}}</a>
         }
       </ng-template>
     </p-breadcrumb>

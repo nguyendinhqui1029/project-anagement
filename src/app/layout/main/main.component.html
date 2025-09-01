@@ -1,9 +1,10 @@
- <div class="grid box-border transition-[grid-template-columns] bg-[#f0f0f4] duration-300 ease-in-out gap-4 p-4"  [style.gridTemplateColumns]="gridTemplate()">
+ <div class="grid transition-[grid-template-columns] !bg-tw-secondary-300 duration-300 ease-in-out gap-4 p-4"  [style.gridTemplateColumns]="gridTemplate()">
   <div class="relative">
     <q-sidebar></q-sidebar>
   </div>
-  <div class="h-full">
+  <div class="h-full" [style.width]="`calc(100vw - ${containerLeft()}px)`">
       <q-header-navbar></q-header-navbar>
-      <router-outlet />
+      <q-breadcrumb [items]="items()"></q-breadcrumb>
+      <router-outlet #mainContainer/>
   </div>
 </div>

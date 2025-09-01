@@ -1,21 +1,42 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, DestroyRef, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { LayoutService } from '@core/services/layout.service';
+import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { HeaderNavbarComponent } from '@shared/components/header-navbar/header-navbar.component';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
-
+import { MenuItem } from 'primeng/api';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'q-main',
-  imports: [RouterOutlet, SidebarComponent, HeaderNavbarComponent],
+  imports: [RouterOutlet, SidebarComponent, HeaderNavbarComponent, BreadcrumbComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit{
+export class MainComponent implements OnInit, AfterViewInit {
+  @ViewChild('mainContainer', { static: false }) mainContainer!: ElementRef<HTMLDivElement>;
+
+  private destroyRef: DestroyRef = inject(DestroyRef);
+  breadcrumbItems = inject(BreadcrumbService);
   layoutService: LayoutService = inject(LayoutService);
-  sidebarStatus = signal(true);
+  sidebarStatus = signal<boolean>(true);
+  items = signal<MenuItem[]>([]);
+  containerLeft = signal<number>(288);
   gridTemplate = computed(()=> this.sidebarStatus() ? '18rem 1fr' : '4.25rem 1fr');
 
+  private platformId = inject(PLATFORM_ID);
+
   ngOnInit(): void {
-    this.layoutService.sidebar$.subscribe(value=> this.sidebarStatus.update(()=>value));
+    this.layoutService.sidebar$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value=> this.sidebarStatus.update(()=>value));
+    this.breadcrumbItems.breadcrumbItems$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value=> this.items.update(()=>value));
+  }
+
+    ngAfterViewInit() {
+    if(isPlatformBrowser(this.platformId)) {
+      const marginLeftRight = 24;
+      const boundingClientRect=  this.mainContainer.nativeElement.getBoundingClientRect();
+      this.containerLeft.update(() => boundingClientRect.left + marginLeftRight);
+    }
   }
 }

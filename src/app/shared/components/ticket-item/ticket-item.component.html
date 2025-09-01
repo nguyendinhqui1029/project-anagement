@@ -1,0 +1,22 @@
+<div class="border-2 rounded-xl border-solid p-2 gap-1 flex flex-col">
+  <h3 class="font-semibold text-lg line-clamp-2">{{item().title}}</h3>
+  <div class="flex justify-between items-center gap-4">
+    <div class="flex gap-4 items-center">
+      <div class="flex items-center gap-1 cursor-pointer">
+        <img class="w-6 h-6" [src]="'assets/icons/images/ticket/types/' + ticketTypeInfo().icon"
+          [alt]="ticketTypeInfo().description | translate" />
+        <p class="font-semibold">{{ item().id }}</p>
+      </div>
+      <img class="w-6 h-6 cursor-default" [src]="'assets/icons/images/ticket/priorities/' + ticketPriorityInfo().icon"
+        [alt]="ticketPriorityInfo().description | translate" />
+    </div>
+    <div class="flex gap-4 items-center">
+      <p
+        class="bg-status-{{item().status.toLowerCase()}} w-fit rounded-xl font-bold px-2 py-1 text-status-text-{{item().status.toLowerCase()}} text-sm">
+        {{item().status.toLowerCase()| translate}}
+      </p>
+      <p-avatar [image]="item().assignee.avatarUrl" shape="circle" [ariaLabel]="item().assignee.name"></p-avatar>
+
+    </div>
+  </div>
+</div>

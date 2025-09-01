@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectStatus } from '@core/enums/project.enum';
 import { ProjectModel } from '@core/models/project.model';
+import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { LottieIconComponent } from '@shared/components/lottie-icon/lottie-icon.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TooltipModule } from 'primeng/tooltip';
@@ -15,14 +15,15 @@ import { TooltipModule } from 'primeng/tooltip';
     ProgressBarModule, 
     LottieIconComponent, 
     TooltipModule, 
-    DatePipe,
-    BreadcrumbComponent
+    DatePipe
     ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
-export class ProjectsComponent {
-private router = inject(Router);
+export class ProjectsComponent implements OnInit {
+  private router = inject(Router);
+  private breadcrumbItems = inject(BreadcrumbService);
+
   projectStatusOptions = computed(()=>({
     OnTrack: {
       icon: '😃',
@@ -78,6 +79,10 @@ private router = inject(Router);
   projectProgress: 5
 }]);
 
+
+  ngOnInit(): void {
+    this.breadcrumbItems.setBreadcrumbItems([]);
+  }
 
 handleNavigateToProjectDetail(id: string) {
   this.router.navigate(['/projects', id]);

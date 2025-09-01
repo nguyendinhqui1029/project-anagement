@@ -1,12 +1,13 @@
 
-<div class="block w-fit h-fit" 
+<div class="block w-fit h-fit"
+  [style.minWidth]="containerMinWidth()" 
   (mouseover)="onMouseOver()" 
   (mouseleave)="onMouseLeave()"
   (click)="onLottieClick()">
   <ng-lottie
     [width]="width()"
     [height]="height()"
-    containerClass="max-w-fit max-h-fit {{class()}}"
+    containerClass="max-w-fit min-w-fit max-h-fit {{class()}}"
     [styles]="styles()"
     [options]="optionsConfig()"
     (animationCreated)="animationCreated($event)"

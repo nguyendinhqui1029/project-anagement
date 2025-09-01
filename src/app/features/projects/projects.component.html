@@ -1,4 +1,3 @@
-<q-breadcrumb></q-breadcrumb>
 <div class="border-2 rounded-xl bg-white flex flex-col gap-4 p-4 mt-4">
   <h3 class="text-xl font-semibold">{{'project_management'| translate}}</h3>
   <div class="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-4">
@@ -18,7 +17,11 @@
           <span>{{item.startDate|date:'dd-MM-yyyy'}} ~ {{item.endDate|date:'dd-MM-yyyy'}}</span>
         </div>
       </div>
-      <p-progressbar [value]="item.projectProgress" unit="%"/>
+      <p-progressbar
+      
+         [ariaLabel]="item.projectProgress"
+        [value]="item.projectProgress" 
+        unit="%"/>
     </div>
     }
   </div>

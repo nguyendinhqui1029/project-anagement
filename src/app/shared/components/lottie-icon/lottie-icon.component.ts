@@ -12,6 +12,7 @@ import { AnimationOptions, BMCompleteLoopEvent, LottieComponent, BMEnterFrameEve
 export class LottieIconComponent {
   trigger= input<'click'|'hover'|'loop-hover'| 'loop'>('hover')
   width = input<string>('40px');
+  containerMinWidth = input<string>('fit-content');
   height = input<string>('40px');
   iconSource = input<string>();
   options = input<AnimationOptions>({

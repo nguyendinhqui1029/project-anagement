@@ -1,1 +1,35 @@
-<p>task-management works!</p>
+<div class="flex w-full flex-col gap-4 bg-white mt-4 p-4 rounded-xl min-w-72">
+  <div class="flex items-center justify-between">
+    <h3 class="text-2xl font-semibold">Board</h3>
+    <div class="flex items-center gap-4">
+      <div class="flex gap-1 items-center">
+        <q-lottie-icon class="cursor-pointer" trigger="loop" width="2rem" height="2rem"
+          iconSource="/assets/icons/animation/time.json"></q-lottie-icon>
+        <span>{{'sprint_day_remaining' | translate: ({ days: 3 })}}</span>
+      </div>
+      <q-lottie-icon class="cursor-pointer" width="2rem" height="2rem"
+        iconSource="/assets/icons/animation/setting.json"></q-lottie-icon>
+    </div>
+
+  </div>
+  <div class="flex gap-2 p-2">
+    <p-iconfield iconPosition="left" class="relative w-full">
+      <q-lottie-icon class="absolute top-[1px] left-[1px] z-10 w-8 h-8" width="2rem" height="2rem"
+        iconSource="/assets/icons/animation/search.json"></q-lottie-icon>
+      <input type="text" pInputText placeholder="Search" class="w-full" />
+    </p-iconfield>
+    <p-treeselect [filter]="true" [filterInputAutoFocus]="true" class="w-full min-w-72" [(ngModel)]="selectedNodes"
+      [options]="nodes" [metaKeySelection]="false" selectionMode="multiple" placeholder="Select Item">
+      <ng-template #dropdownicon>
+        @if(selectedNodes.length) {
+        <q-lottie-icon width="1.5rem" height="1.5rem" iconSource="/assets/icons/animation/close.json"
+          (click)="handleResetFilter()"></q-lottie-icon>
+        }
+      </ng-template>
+    </p-treeselect>
+    <q-lottie-icon containerMinWidth="2.5rem" width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/plus.json"></q-lottie-icon>
+    <q-lottie-icon containerMinWidth="2.5rem" width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/filter.json"></q-lottie-icon>
+  </div>
+
+  <q-ticket-board></q-ticket-board>
+</div>
