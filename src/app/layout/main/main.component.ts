@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, DestroyRef, AfterViewInit, ViewChild, ElementRef, PLATFORM_ID } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, DestroyRef, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { LayoutService } from '@core/services/layout.service';
@@ -7,16 +7,13 @@ import { HeaderNavbarComponent } from '@shared/components/header-navbar/header-n
 import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
 import { MenuItem } from 'primeng/api';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { isPlatformBrowser } from '@angular/common';
 @Component({
   selector: 'q-main',
   imports: [RouterOutlet, SidebarComponent, HeaderNavbarComponent, BreadcrumbComponent],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent implements OnInit, AfterViewInit {
-  @ViewChild('mainContainer', { static: false }) mainContainer!: ElementRef<HTMLDivElement>;
-
+export class MainComponent implements OnInit {
   private destroyRef: DestroyRef = inject(DestroyRef);
   breadcrumbItems = inject(BreadcrumbService);
   layoutService: LayoutService = inject(LayoutService);
@@ -32,11 +29,15 @@ export class MainComponent implements OnInit, AfterViewInit {
     this.breadcrumbItems.breadcrumbItems$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(value=> this.items.update(()=>value));
   }
 
-    ngAfterViewInit() {
-    if(isPlatformBrowser(this.platformId)) {
-      const marginLeftRight = 24;
-      const boundingClientRect=  this.mainContainer.nativeElement.getBoundingClientRect();
-      this.containerLeft.update(() => boundingClientRect.left + marginLeftRight);
-    }
-  }
+  // initGridTemplate() {
+  //   const marginLeftRight = 24;
+  //   const boundingClientRect=  this.mainContainer.nativeElement.getBoundingClientRect();
+  //   this.containerLeft.update(() => boundingClientRect.left + marginLeftRight);
+  // }
+
+  // ngAfterViewInit() {
+  //   if(isPlatformBrowser(this.platformId)) {
+  //     this.initGridTemplate();
+  //   }
+  // }
 }

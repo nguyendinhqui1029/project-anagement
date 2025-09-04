@@ -1,16 +1,17 @@
 import { ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay, withIncrementalHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { definePreset } from '@primeuix/themes';
 
 import { provideCacheableAnimationLoader, provideLottieOptions } from 'ngx-lottie';
+import { httpCacheInterceptor } from '@core/interceptor/http-cache.interceptor';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,7 +19,6 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideClientHydration(withIncrementalHydration(), withEventReplay()),
-    provideAnimationsAsync('animations'),
     providePrimeNG({
       theme: {
         preset: definePreset(Aura, {
@@ -56,7 +56,7 @@ export const appConfig: ApplicationConfig = {
         })
       }
     }),
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideHttpClient(withFetch()),
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'en'
@@ -68,6 +68,10 @@ export const appConfig: ApplicationConfig = {
     provideLottieOptions({
       player: () => import('lottie-web'),
     }),
-    provideCacheableAnimationLoader()
+    provideCacheableAnimationLoader(),
+    provideHttpClient(withInterceptors([httpCacheInterceptor])),
+    provideAnimationsAsync('animations')
   ]
 };
+
+

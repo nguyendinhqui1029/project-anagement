@@ -1,13 +1,13 @@
-<div class="border-2 rounded-xl bg-white flex flex-col overflow-hidden">
-    <p-breadcrumb [model]="items()" [home]="home" >
-       <ng-template pTemplate="home" let-home>
-        @if(home.icon) {
-          <a [routerLink]="home.routerLink" aria-label="Home">
-            <q-lottie-icon class="cursor-pointer" width="2,5rem" height="2.5rem" [iconSource]="home.icon"></q-lottie-icon>
-          </a>
-        } @else {
-          <a class="cursor-pointer text-xl" [aria-label]="home.label" [routerLink]="home.routerLink">{{home.label}}</a>
-        }
-      </ng-template>
-    </p-breadcrumb>
+<div class="min-w-72 border-2 rounded-xl bg-white flex flex-col overflow-hidden">
+  <p-breadcrumb [model]="items()?.length ? items() : undefined" [home]="home">
+    <ng-template pTemplate="home" let-home>
+      @if(home.icon) {
+      <a [routerLink]="home.routerLink" aria-label="Home">
+        <q-lottie-icon class="cursor-pointer" width="2,5rem" height="2.5rem" [iconSource]="home.icon"></q-lottie-icon>
+      </a>
+      } @else {
+      <a class="cursor-pointer text-xl" [aria-label]="home.label" [routerLink]="home.routerLink">{{home.label}}</a>
+      }
+    </ng-template>
+  </p-breadcrumb>
 </div>

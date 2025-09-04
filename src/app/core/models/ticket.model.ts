@@ -25,7 +25,7 @@ export interface TicketModel {
   ticketHistory?: TicketHistory[]
 }
 
-export interface ColumnBoardModel {
+export interface ColumnModel {
   status: TicketStatus;
   tickets: TicketModel[];
 }

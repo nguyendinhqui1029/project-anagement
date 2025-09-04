@@ -1,28 +1,37 @@
 <div class="border-2 rounded-xl bg-white flex flex-col gap-4 p-4 mt-4">
-  <h3 class="text-xl font-semibold">{{'project_management'| translate}}</h3>
+  <div class="flex items-center justify-between">
+    <h3 class="text-xl font-semibold">{{'project_management'| translate}}</h3>
+    <q-lottie-icon class="cursor-pointer" width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/plus.json"
+      (click)="handleOpenDialogAddProject()"></q-lottie-icon>
+  </div>
   <div class="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-4">
-     @for (item of projectList(); track item.id) {
-      <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-1" (click)="handleNavigateToProjectDetail(item.id)">
+    @if(projectListResource.hasValue()) {
+    @for (item of projectListResource.value().data; track item.id) {
+    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-1"
+      (click)="handleNavigateToProjectDetail(item.id)">
       <h4 class="text-lg font-semibold">{{item.name}}</h4>
       <div class="flex flex-col mb-2">
+
         <div class="flex items-center justify-between">
           <div class="flex gap-1 items-end">
-            <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem" iconSource="/assets/icons/animation/team.json"></q-lottie-icon>
-            <span class="mb-1">{{item.memberCount}}</span>
+            <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
+              iconSource="/assets/icons/animation/team.json"></q-lottie-icon>
+            <span class="mb-1">{{item?.participants?.length}}</span>
           </div>
-          <span class="text-3xl" [pTooltip]="projectStatusOptions()[item.status].description" tooltipEvent="hover">{{projectStatusOptions()[item.status].icon}}</span>
+          <span class="text-3xl" tooltipPosition="bottom" [pTooltip]="projectStatusOptions()[item.status].description"
+            tooltipEvent="hover">{{projectStatusOptions()[item.status].icon}}</span>
         </div>
+
         <div class="flex gap-1 items-end">
-          <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem" iconSource="/assets/icons/animation/calendar.json"></q-lottie-icon>
+          <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
+            iconSource="/assets/icons/animation/calendar.json"></q-lottie-icon>
           <span>{{item.startDate|date:'dd-MM-yyyy'}} ~ {{item.endDate|date:'dd-MM-yyyy'}}</span>
         </div>
       </div>
-      <p-progressbar
-      
-         [ariaLabel]="item.projectProgress"
-        [value]="item.projectProgress" 
-        unit="%"/>
+      <p-progressbar [ariaLabel]="item.projectProgress" [value]="item.projectProgress" unit="%" />
     </div>
     }
+    }
+
   </div>
 </div>

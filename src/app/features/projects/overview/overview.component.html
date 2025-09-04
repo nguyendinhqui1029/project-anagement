@@ -4,9 +4,10 @@
     <div class="bg-white rounded-2xl shadow p-4 lg:col-span-4">
       <q-header [isShowNavigate]="false" title="{{'project_overview'| translate}}"></q-header>
       <div class="flex gap-4 mt-2">
-        <p-progressbar [value]="progress" [attr.aria-valuemin]="0" [attr.aria-valuemax]="100"
-          [attr.aria-valuenow]="progress" aria-label="Project progress" unit="%" [showValue]="true"
-          class="w-full" />
+        @if(projectResource.hasValue()) {
+        <p-progressbar [value]="projectResource.value().data.projectProgress" [attr.aria-valuemin]="0"
+          [attr.aria-valuemax]="100" [attr.aria-valuenow]="projectResource.value().data.projectProgress"
+          aria-label="Project progress" unit="%" [showValue]="true" class="w-full" />
         <div class="min-w-fit grid grid-cols-2 border-2 rounded-md p-2 gap-2">
           <q-lottie-icon (click)="handleNavigateClick('reports-and-analytics')" width="3rem" height="3rem"
             iconSource="/assets/icons/animation/advantage.json"></q-lottie-icon>
@@ -17,6 +18,7 @@
           <q-lottie-icon (click)="openDialogMembersManagement()" width="3rem" height="3rem"
             iconSource="/assets/icons/animation/team.json"></q-lottie-icon>
         </div>
+        }
       </div>
     </div>
 
@@ -116,11 +118,19 @@
     <div class="bg-white rounded-2xl shadow p-4 lg:col-span-4">
       <q-header (handleNavigateClick)="handleNavigateClick('task-management')"
         title="{{'task_management'| translate}}"></q-header>
+
       <div class="flex flex-col gap-2 mt-2 h-60 overflow-auto">
-        @for (item of taskItems(); track item.id) {
+        @if(boardDefault()) {
+        @for (item of boardDefault()?.tickets; track item.id) {
         <q-ticket-item [item]="item"></q-ticket-item>
         }
+        }@else {
+        <div class="flex items-center justify-center w-full h-full">
+          {{'data_not_available' | translate}}
+        </div>
+        }
       </div>
+
     </div>
   </div>
 

@@ -268,7 +268,7 @@ export class TicketBoardComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if(isPlatformBrowser(this.platformId)) {
-      const marginTopBottom = 95;
+      const marginTopBottom = 118;
       const boundingClientRect=  this.boardContainer.nativeElement.getBoundingClientRect();
       this.containerTop.update(() => boundingClientRect.top + marginTopBottom);
     }

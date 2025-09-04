@@ -1,11 +1,12 @@
 import { DatePipe } from '@angular/common';
-import { Component, computed, inject, signal, OnInit } from '@angular/core';
+import { httpResource } from '@angular/common/http';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProjectStatus } from '@core/enums/project.enum';
 import { ProjectModel } from '@core/models/project.model';
 import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LottieIconComponent } from '@shared/components/lottie-icon/lottie-icon.component';
+import { environment } from 'environments/environment';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TooltipModule } from 'primeng/tooltip';
 @Component({
@@ -51,40 +52,24 @@ export class ProjectsComponent implements OnInit {
     }
   }));
 
-  projectList = signal<ProjectModel[]>([{
-  id: '1222',
-  name: 'Project name 1',
-  status: ProjectStatus.Initiating,
-  memberCount: 3,
-  startDate: new Date('2025-08-08'),
-  endDate: new Date('2026-03-08'),
-  projectProgress: 20
-},
-{
-  id: '1223',
-  name: 'Project name 3',
-  status: ProjectStatus.Delayed,
-  memberCount: 3,
-  startDate: new Date('2025-08-08'),
-  endDate: new Date('2026-03-08'),
-  projectProgress: 10
-},
-{
-  id: '1224',
-  name: 'Project name 2',
-  status: ProjectStatus.Pending,
-  memberCount: 3,
-  startDate: new Date('2025-08-08'),
-  endDate: new Date('2026-03-08'),
-  projectProgress: 5
-}]);
-
+  projectListResource = httpResource<{status:number, data: ProjectModel[]}>(() => ({
+    url:`${environment.apiUrl}/project`,
+    method: 'GET',
+    reportProgress: true,
+    transferCache: true,
+    keepalive: true,  
+    mode: 'cors', 
+  }));
 
   ngOnInit(): void {
     this.breadcrumbItems.setBreadcrumbItems([]);
   }
 
-handleNavigateToProjectDetail(id: string) {
-  this.router.navigate(['/projects', id]);
-}
+  handleNavigateToProjectDetail(id: string) {
+    this.router.navigate(['/projects', id]);
+  }
+
+  handleOpenDialogAddProject() {
+    // Open dialog to add new project
+  }
 }
