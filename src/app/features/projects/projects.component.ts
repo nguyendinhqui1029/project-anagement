@@ -11,6 +11,10 @@ import { environment } from 'environments/environment';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddProjectComponent } from '@shared/components/dialogs/add-project/add-project.component';
 import { PrimeNgImportsModule } from '@core/modules/primeng.module';
+import { ApiResponse } from '@core/models/common.model';
+import { ProjectService } from '@core/services/project.service';
+import { ConfirmationService } from 'primeng/api';
+
 @Component({
   selector: 'q-projects',
   imports: [
@@ -21,12 +25,15 @@ import { PrimeNgImportsModule } from '@core/modules/primeng.module';
     ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
-  providers: [DialogService]
+  providers: [ConfirmationService]
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private breadcrumbItems = inject(BreadcrumbService);
   private dialogService = inject(DialogService);
+  private projectService = inject(ProjectService);
+  private confirmationService = inject(ConfirmationService);
+  
   dynamicDialogRef!: DynamicDialogRef;
 
   projectStatusOptions = computed(()=>({
@@ -68,7 +75,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.breadcrumbItems.setBreadcrumbItems([]);
   }
 
-  handleNavigateToProjectDetail(id: string) {
+  handleNavigateToProjectDetail(event: MouseEvent,id: number) {
+    event.stopPropagation();
     this.router.navigate(['/projects', id]);
   }
 
@@ -79,15 +87,42 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             modal: true,
             contentStyle: { overflow: 'auto' },
             breakpoints: {
-                '960px': '60vw',
+                '960px': '63vw',
                 '750px': '85vw',
                 '600px': '90vw'
             }
-        });
+      });
 
-        this.dynamicDialogRef.onClose.subscribe((data: unknown) => {
-            console.log(data)
-        });
+    this.dynamicDialogRef.onClose.subscribe((data: ApiResponse<ProjectModel>) => {
+      if(data?.statusCode === 200) {
+        this.projectListResource.reload();
+      }
+    });
+  }
+
+  handleDeleteProject(event: MouseEvent,id: number) {
+    event.stopPropagation();
+    this.confirmationService.confirm({
+            target: event.target as EventTarget,
+            message: 'Are you sure that you want to proceed?',
+            closable: false,
+            closeOnEscape: true,
+            rejectButtonProps: {
+                label: 'Cancel',
+                severity: 'secondary',
+                outlined: true,
+            },
+            acceptButtonProps: {
+                label: 'Delete',
+            },
+            accept: () => {
+              this.projectService.deleteProject(id).subscribe(response => {
+                if(response?.statusCode === 200) {
+                  this.projectListResource.reload();
+                }
+              })
+            }
+    });
   }
 
   ngOnDestroy() {

@@ -3,10 +3,11 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApiResponse, CommonOption } from '@core/models/common.model';
 import { DateRangeModel } from '@core/models/date-range.model';
-import { ProjectRequestBody } from '@core/models/project.model';
+import { ProjectModel, ProjectRequestBody } from '@core/models/project.model';
 import { UserModel } from '@core/models/user.model';
 import { PrimeNgImportsModule } from '@core/modules/primeng.module';
 import { ProjectService } from '@core/services/project.service';
+import { UserService } from '@core/services/user.service';
 import { DateRangeComponent } from '@shared/components/date-range/date-range.component';
 import { environment } from 'environments/environment';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
@@ -20,6 +21,7 @@ import { DynamicDialogRef } from 'primeng/dynamicdialog';
 export class AddProjectComponent {
   private dynamicDialogRef: DynamicDialogRef = inject(DynamicDialogRef);
   private projectService: ProjectService = inject(ProjectService);
+  private userService: UserService = inject(UserService);
 
   dateRange: DateRangeModel = {
     startDate: undefined,
@@ -62,8 +64,8 @@ export class AddProjectComponent {
     participants: new FormControl([])
   });
 
-  closeDialog() {
-    this.dynamicDialogRef.close();
+  closeDialog(result?: ApiResponse<ProjectModel>) {
+    this.dynamicDialogRef.close(result);
   }
 
   handleSubmit() {
@@ -74,9 +76,10 @@ export class AddProjectComponent {
             startDate: this.addProjectForm.value.projectTime?.startDate?.getTime(),
             endDate:this.addProjectForm.value.projectTime?.endDate?.getTime(),
             isUnlimited: this.addProjectForm.value.projectTime?.isUnlimited || false,
-            participants: this.addProjectForm.value.participants || [],
+            participants: this.addProjectForm.value.participants?.map(id=>({id})) || [],
+            owner: { id: this.userService.getUserLoginValue()!.id}
       }
-      this.projectService.createProject(body).subscribe(response=>response.statusCode === 200 && this.closeDialog());
+      this.projectService.createProject(body).subscribe(response=>response.statusCode === 200 && this.closeDialog(response));
     }
   }
 }

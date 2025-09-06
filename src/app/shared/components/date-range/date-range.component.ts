@@ -67,6 +67,7 @@ export class DateRangeComponent implements ControlValueAccessor {
 
   changeUnlimited(checkboxChangeEvent: CheckboxChangeEvent) {
     this.dataRangeValue.update(value=>({...value, endDate: checkboxChangeEvent.checked ? new Date(this.MAX_DATE) : undefined, isUnlimited: checkboxChangeEvent.checked}))
+    this.onChange(this.dataRangeValue());
   }
 
   handleOnTouched() {

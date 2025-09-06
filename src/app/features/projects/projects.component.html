@@ -7,10 +7,14 @@
   <div class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-4">
     @if(projectListResource.hasValue()) {
     @for (item of projectListResource.value().data; track item.id) {
-    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-1 w-full"
-      (click)="handleNavigateToProjectDetail(item.id)">
-      <h4 class="text-lg font-semibold">{{item.name}}</h4>
-      <div class="flex flex-col mb-2">
+    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-4 w-full"
+      (click)="handleNavigateToProjectDetail($event, item.id)">
+      <div class="flex items-center justify-between">
+        <h4 class="text-lg font-semibold">{{item.name}}</h4>
+        <q-lottie-icon (click)="handleDeleteProject($event, item.id)" class="cursor-pointer" width="2.3rem"
+          height="2.3rem" iconSource="/assets/icons/animation/delete.json"></q-lottie-icon>
+      </div>
+      <div class="flex flex-col gap-4">
         <div class="flex items-center justify-between">
           <div class="flex gap-1 items-end">
             <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
@@ -24,7 +28,7 @@
         <div class="flex gap-1 items-end">
           <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
             iconSource="/assets/icons/animation/calendar.json"></q-lottie-icon>
-          <span>{{item.startDate|date:'dd-MM-yyyy'}} ~ {{item.endDate|date:'dd-MM-yyyy'}}</span>
+          <span>{{item.startDate|date:'yyyy-MM-dd'}} ~ {{item.endDate|date:'yyyy-MM-dd'}}</span>
         </div>
       </div>
       <p-progressbar [ariaLabel]="item.projectProgress" [value]="item.projectProgress" unit="%" />
@@ -34,3 +38,11 @@
 
   </div>
 </div>
+<p-confirmDialog>
+  <ng-template #message let-message>
+    <div class="flex flex-col items-center w-full gap-4 mb-4">
+      <q-lottie-icon width="5rem" height="5rem" iconSource="/assets/icons/animation/alert.json"></q-lottie-icon>
+      <p>{{ message.message }}</p>
+    </div>
+  </ng-template>
+</p-confirmDialog>

@@ -4,7 +4,7 @@ export interface CommonOption<T=string,K=unknown> {
   record: K;
 }
 
-export interface ApiResponse<T=null> {
+export interface ApiResponse<T=unknown> {
   statusCode: number;
   statusText?: string;
   data: T;

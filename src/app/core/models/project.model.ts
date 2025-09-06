@@ -3,7 +3,7 @@ import { UserModel } from "@core/models/user.model";
 import { BoardModel } from "@core/models/board.model";
 
 export interface ProjectModel {
-  id: string;
+  id: number;
   name: string;
   status: ProjectStatus;
   participants: UserModel[];
@@ -19,5 +19,6 @@ export interface ProjectRequestBody {
   startDate: number | undefined;
   endDate: number | undefined;
   isUnlimited: boolean;
-  participants: number[];
+  owner: {id:number};
+  participants: {id: number}[];
 }

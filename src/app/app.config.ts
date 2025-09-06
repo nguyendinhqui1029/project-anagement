@@ -12,6 +12,8 @@ import { definePreset } from '@primeuix/themes';
 import { provideCacheableAnimationLoader, provideLottieOptions } from 'ngx-lottie';
 import { httpCacheInterceptor } from '@core/interceptor/http-cache.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { ConfirmationService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -70,7 +72,9 @@ export const appConfig: ApplicationConfig = {
     }),
     provideCacheableAnimationLoader(),
     provideHttpClient(withInterceptors([httpCacheInterceptor])),
-    provideAnimationsAsync('animations')
+    provideAnimationsAsync('animations'),
+    ConfirmationService,
+    DialogService
   ]
 };
 
