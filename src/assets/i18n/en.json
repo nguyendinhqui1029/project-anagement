@@ -50,5 +50,13 @@
   "problem": "Problem",
   "problem_description": "A problem that needs to be solved",
   "sprint_day_remaining": "{{days}} days remaining",
-  "data_not_available": "Data not available"
+  "data_not_available": "Data not available",
+  "add_project_header": "Add New Project",
+  "project_name": "Project Name",
+  "project_description": "Project Description",
+  "add_project_submit_button": "Submit",
+  "project_start_date": "Project Start",
+  "project_end_date": "Project End",
+  "is_unlimited": "Unlimited",
+  "participants": "Participants"
 }

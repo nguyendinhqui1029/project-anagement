@@ -1,10 +1,11 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, inject, PLATFORM_ID, signal, computed } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, inject, PLATFORM_ID, signal, computed, OnInit } from '@angular/core';
 import { CdkDrag, CdkDragDrop, CdkDragMove, CdkDropList, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { isPlatformBrowser } from '@angular/common';
 import { TicketPriority, TicketStatus, TicketType } from '@core/enums/project.enum';
 import { TicketCardComponent } from '@shared/components/ticket-card/ticket-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TicketModel } from '@core/models/ticket.model';
+import { UserModel } from '@core/models/user.model';
 
 @Component({
   selector: 'q-ticket-board',
@@ -12,7 +13,8 @@ import { TicketModel } from '@core/models/ticket.model';
   templateUrl: './ticket-board.component.html',
   styleUrl: './ticket-board.component.scss'
 })
-export class TicketBoardComponent implements AfterViewInit {
+export class TicketBoardComponent implements AfterViewInit, OnInit {
+  
   @ViewChild('boardContainer', { static: false }) boardContainer!: ElementRef<HTMLDivElement>;
   private platformId = inject(PLATFORM_ID);
   statusColumns = computed(() => [
@@ -27,205 +29,184 @@ export class TicketBoardComponent implements AfterViewInit {
           type: 'Task' as TicketType,
           priority: 'Medium' as TicketPriority,
           reported: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
+            id: 1,
+            username: 'johndoe',
+            fullName: 'John Doe',
+            status: 'Active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
           assignee: {
-            id: 'u2',
-            name: 'Jane Smith',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
+            id: 2,
+            username: 'janesmith',
+            fullName: 'Jane Smith',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
         },
         {
           id: '2',
           title: 'Task 2',
-          status: 'Open'  as TicketStatus,
+          status: 'Backlog' as TicketStatus,
           description: 'Task 2 description',
           type: 'Bug' as TicketType,
           priority: 'High' as TicketPriority,
           reported: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
+            id: 1,
+            username: 'johndoe',
+            fullName: 'John Doe',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
           assignee: {
-            id: 'u3',
-            name: 'Alice Lee',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '3',
-          title: 'Task 3',
-          status: 'ToDo'  as TicketStatus,
-          description: 'Task 3 description',
-          type: 'Story' as TicketType,
-          priority: 'Low' as TicketPriority,
-          reported: {
-            id: 'u2',
-            name: 'Jane Smith',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u4',
-            name: 'Bob Johnson',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '4',
-          title: 'Task 4',
-          status: 'In_Progress'  as TicketStatus,
-          description: 'Task 4 description',
-          type: 'Task' as TicketType,
-          priority: 'Medium' as TicketPriority,
-          reported: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u5',
-            name: 'Carol King',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '5',
-          title: 'Task 5',
-          status: 'In_Review'  as TicketStatus,
-          description: 'Task 5 description',
-          type: 'Bug' as TicketType,
-          priority: 'High' as TicketPriority,
-          reported: {
-            id: 'u2',
-            name: 'Jane Smith',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '6',
-          title: 'Task 6',
-          status: 'In_Testing'  as TicketStatus,
-          description: 'Task 6 description',
-          type: 'Story' as TicketType,
-          priority: 'Medium' as TicketPriority,
-          reported: {
-            id: 'u3',
-            name: 'Alice Lee',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u4',
-            name: 'Bob Johnson',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '7',
-          title: 'Task 7',
-          status: 'Blocked'  as TicketStatus,
-          description: 'Task 7 description',
-          type: 'Task' as TicketType,
-          priority: 'Highest' as TicketPriority,
-          reported: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u5',
-            name: 'Carol King',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '8',
-          title: 'Task 8',
-          status: 'Resolved'  as TicketStatus,
-          description: 'Task 8 description',
-          type: 'Bug' as TicketType,
-          priority: 'Low' as TicketPriority,
-          reported: {
-            id: 'u2',
-            name: 'Jane Smith',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '9',
-          title: 'Task 9',
-          status: 'Done'  as TicketStatus,
-          description: 'Task 9 description',
-          type: 'Story' as TicketType,
-          priority: 'Medium' as TicketPriority,
-          reported: {
-            id: 'u3',
-            name: 'Alice Lee',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u4',
-            name: 'Bob Johnson',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
-        },
-        {
-          id: '10',
-          title: 'Task 10',
-          status: 'Closed'  as TicketStatus,
-          description: 'Task 10 description',
-          type: 'Task' as TicketType,
-          priority: 'Highest' as TicketPriority,
-          reported: {
-            id: 'u1',
-            name: 'John Doe',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          },
-          assignee: {
-            id: 'u5',
-            name: 'Carol King',
-            avatarUrl: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
-          }
+            id: 3,
+            username: 'alicelee',
+            fullName: 'Alice Lee',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
         }
       ] as TicketModel[]
     },
     {
       status: TicketStatus.Done,
-      items: []  as TicketModel[]
+      items: [
+        {
+          id: '3',
+          title: 'Task 3',
+          status: 'ToDo' as TicketStatus,
+          description: 'Task 3 description',
+          type: 'Story' as TicketType,
+          priority: 'Low' as TicketPriority,
+          reported: {
+            id: 3,
+            username: 'alicelee',
+            fullName: 'Alice Lee',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
+          assignee: {
+            id: 4,
+            username: 'bobjohnson',
+            fullName: 'Bob Johnson',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
+        }
+      ] as TicketModel[]
     },
     {
       status: TicketStatus.InProgress,
-      items: []  as TicketModel[]
+      items: [
+        {
+          id: '4',
+          title: 'Task 4',
+          status: 'In_Progress' as TicketStatus,
+          description: 'Task 4 description',
+          type: 'Task' as TicketType,
+          priority: 'Medium' as TicketPriority,
+          reported: {
+            id: 1,
+            username: 'johndoe',
+            fullName: 'John Doe',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
+          assignee: {
+            id: 5,
+            username: 'carolking',
+            fullName: 'Carol King',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
+        }
+      ] as TicketModel[]
     },
     {
       status: TicketStatus.Blocked,
-      items: []  as TicketModel[]
+      items: [
+        {
+          id: '7',
+          title: 'Task 7',
+          status: 'Blocked' as TicketStatus,
+          description: 'Task 7 description',
+          type: 'Task' as TicketType,
+          priority: 'Highest' as TicketPriority,
+          reported: {
+            id: 1,
+            username: 'johndoe',
+            fullName: 'John Doe',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
+          assignee: {
+            id: 5,
+            username: 'carolking',
+            fullName: 'Carol King',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
+        }
+      ] as TicketModel[]
     },
     {
       status: TicketStatus.Closed,
-      items: []  as TicketModel[]
+      items: [
+        {
+          id: '10',
+          title: 'Task 10',
+          status: 'Closed' as TicketStatus,
+          description: 'Task 10 description',
+          type: 'Task' as TicketType,
+          priority: 'Highest' as TicketPriority,
+          reported: {
+            id: 1,
+            username: 'johndoe',
+            fullName: 'John Doe',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
+          assignee: {
+            id: 5,
+            username: 'carolking',
+            fullName: 'Carol King',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
+        }
+      ] as TicketModel[]
     },
     {
       status: TicketStatus.InTesting,
-      items: []  as TicketModel[]
+      items: [
+        {
+          id: '6',
+          title: 'Task 6',
+          status: 'In_Testing' as TicketStatus,
+          description: 'Task 6 description',
+          type: 'Story' as TicketType,
+          priority: 'Medium' as TicketPriority,
+          reported: {
+            id: 3,
+            username: 'alicelee',
+            fullName: 'Alice Lee',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel,
+          assignee: {
+            id: 4,
+            username: 'bobjohnson',
+            fullName: 'Bob Johnson',
+            status: 'active',
+            avatar: 'https://primefaces.org/cdn/primeng/images/demo/avatar/onyamalimba.png'
+          } as UserModel
+        }
+      ] as TicketModel[]
     }
   ]);
 
   containerTop = signal<number>(100);
-  scrollSpeed = 10; 
-  edgeSize = 150;    
+  scrollSpeed = 10;
+  edgeSize = 150;
 
   drop(event: CdkDragDrop<TicketModel[]>) {
     if (event.previousContainer === event.container) {
@@ -239,7 +220,7 @@ export class TicketBoardComponent implements AfterViewInit {
       );
     }
   }
-  
+
   connectedDropLists(statusColumn: TicketStatus): string[] {
     return this.statusColumns().filter(col => col.status !== statusColumn)
       .map(col => col.status);
@@ -248,29 +229,36 @@ export class TicketBoardComponent implements AfterViewInit {
 
 
   onDragMoved(event: CdkDragMove<TicketModel[]>, scrollContainer: HTMLElement) {
-  const { x, y } = event.pointerPosition;
-  const rect = scrollContainer.getBoundingClientRect();
+    const { x, y } = event.pointerPosition;
+    const rect = scrollContainer.getBoundingClientRect();
 
-  // scroll dọc
-  if (y < rect.top + this.edgeSize) {
-    scrollContainer.scrollTop -= this.scrollSpeed;
-  } else if (y > rect.bottom - this.edgeSize) {
-    scrollContainer.scrollTop += this.scrollSpeed;
+    // scroll dọc
+    if (y < rect.top + this.edgeSize) {
+      scrollContainer.scrollTop -= this.scrollSpeed;
+    } else if (y > rect.bottom - this.edgeSize) {
+      scrollContainer.scrollTop += this.scrollSpeed;
+    }
+
+    // scroll ngang
+    if (x < rect.left + this.edgeSize) {
+      scrollContainer.scrollLeft -= this.scrollSpeed;
+    } else if (x > rect.right - this.edgeSize) {
+      scrollContainer.scrollLeft += this.scrollSpeed;
+    }
   }
 
-  // scroll ngang
-  if (x < rect.left + this.edgeSize) {
-    scrollContainer.scrollLeft -= this.scrollSpeed;
-  } else if (x > rect.right - this.edgeSize) {
-    scrollContainer.scrollLeft += this.scrollSpeed;
-  }
-}
-
-  ngAfterViewInit() {
-    if(isPlatformBrowser(this.platformId)) {
+  calculateContainerHight() {
+    if (isPlatformBrowser(this.platformId)) {
       const marginTopBottom = 118;
-      const boundingClientRect=  this.boardContainer.nativeElement.getBoundingClientRect();
+      const boundingClientRect = this.boardContainer.nativeElement.getBoundingClientRect();
       this.containerTop.update(() => boundingClientRect.top + marginTopBottom);
     }
+  }
+  ngOnInit(): void {
+    this.calculateContainerHight();
+  }
+
+  ngAfterViewInit() {
+    this.calculateContainerHight();
   }
 }

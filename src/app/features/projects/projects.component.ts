@@ -1,29 +1,33 @@
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectModel } from '@core/models/project.model';
 import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { LottieIconComponent } from '@shared/components/lottie-icon/lottie-icon.component';
 import { environment } from 'environments/environment';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { TooltipModule } from 'primeng/tooltip';
+
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { AddProjectComponent } from '@shared/components/dialogs/add-project/add-project.component';
+import { PrimeNgImportsModule } from '@core/modules/primeng.module';
 @Component({
   selector: 'q-projects',
   imports: [
     TranslateModule, 
-    ProgressBarModule, 
     LottieIconComponent, 
-    TooltipModule, 
-    DatePipe
+    DatePipe,
+    PrimeNgImportsModule
     ],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
+  styleUrl: './projects.component.scss',
+  providers: [DialogService]
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private breadcrumbItems = inject(BreadcrumbService);
+  private dialogService = inject(DialogService);
+  dynamicDialogRef!: DynamicDialogRef;
 
   projectStatusOptions = computed(()=>({
     OnTrack: {
@@ -51,7 +55,6 @@ export class ProjectsComponent implements OnInit {
       description: 'Hoàn tất dự án'
     }
   }));
-
   projectListResource = httpResource<{status:number, data: ProjectModel[]}>(() => ({
     url:`${environment.apiUrl}/project`,
     method: 'GET',
@@ -70,6 +73,26 @@ export class ProjectsComponent implements OnInit {
   }
 
   handleOpenDialogAddProject() {
-    // Open dialog to add new project
+    this.dynamicDialogRef = this.dialogService.open(AddProjectComponent, {
+            showHeader: false,
+            width: '55vw',
+            modal: true,
+            contentStyle: { overflow: 'auto' },
+            breakpoints: {
+                '960px': '60vw',
+                '750px': '85vw',
+                '600px': '90vw'
+            }
+        });
+
+        this.dynamicDialogRef.onClose.subscribe((data: unknown) => {
+            console.log(data)
+        });
+  }
+
+  ngOnDestroy() {
+    if (this.dynamicDialogRef) {
+      this.dynamicDialogRef.close();
+    }
   }
 }

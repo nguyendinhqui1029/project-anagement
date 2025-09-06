@@ -1,0 +1,32 @@
+<div class="flex gap-3">
+  <p-floatlabel variant="on">
+    <p-datepicker [(ngModel)]="dataRangeValue().startDate" [dateFormat]="dateFormat()" [autofocus]="false"
+      [placeholder]="placeholder()" [appendTo]="appendTo()" (onSelect)="dateChange($event, 'startDate')"
+      (onFocus)="handleOnTouched()" [showTime]="showTime()" [minDate]="minStartDate()" [maxDate]="maxStartDate()"
+      class="min-w-44 w-full" [iconDisplay]="'input'" [showIcon]="true" inputId="startDateId">
+      <ng-template #inputicon>
+        <q-lottie-icon class="absolute w-6 h-6 top-[-6px] right-[-3px]"
+          iconSource="/assets/icons/animation/calendar.json" />
+      </ng-template>
+    </p-datepicker>
+    <label for="startDateId">{{startDateLabel()}}</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <p-datepicker [(ngModel)]="dataRangeValue().endDate" [dateFormat]="dateFormat()" [autofocus]="false"
+      [disabled]="dataRangeValue().isUnlimited" [placeholder]="placeholder()" [appendTo]="appendTo()"
+      (onFocus)="handleOnTouched()" [showTime]="showTime()" [minDate]="minEndDate()" [maxDate]="maxEndDate()"
+      class="min-w-44 w-full" (onSelect)="dateChange($event, 'endDate')" [iconDisplay]="'input'" [showIcon]="true"
+      inputId="endDateId">
+      <ng-template #inputicon>
+        <q-lottie-icon class="absolute w-6 h-6 top-[-6px] right-[-3px]"
+          iconSource="/assets/icons/animation/calendar.json" />
+      </ng-template>
+    </p-datepicker>
+    <label for="endDateId">{{endDateLabel()}}</label>
+  </p-floatlabel>
+  <div class="flex gap-1 items-center">
+    <p-checkbox inputId="isUnlimited" (onChange)="changeUnlimited($event)" [value]="dataRangeValue().isUnlimited"
+      [binary]="true" />
+    <label for="isUnlimited">{{'is_unlimited'| translate }}</label>
+  </div>
+</div>

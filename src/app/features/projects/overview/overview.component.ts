@@ -2,17 +2,17 @@ import { httpResource } from '@angular/common/http';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectModel } from '@core/models/project.model';
+import { PrimeNgImportsModule } from '@core/modules/primeng.module';
 import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { LottieIconComponent } from '@shared/components/lottie-icon/lottie-icon.component';
 import { TicketItemComponent } from '@shared/components/ticket-item/ticket-item.component';
 import { environment } from 'environments/environment';
-import { ProgressBarModule } from 'primeng/progressbar';
 @Component({
   selector: 'q-overview',
   imports: [
-    ProgressBarModule, 
+    PrimeNgImportsModule,
     TranslateModule , 
     LottieIconComponent, 
     HeaderComponent, TicketItemComponent],

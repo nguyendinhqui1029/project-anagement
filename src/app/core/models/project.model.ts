@@ -12,3 +12,12 @@ export interface ProjectModel {
   projectProgress: number;
   boards: BoardModel[];
 }
+
+export interface ProjectRequestBody {
+  name: string;
+  description: string;
+  startDate: number | undefined;
+  endDate: number | undefined;
+  isUnlimited: boolean;
+  participants: number[];
+}

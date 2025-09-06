@@ -2,14 +2,15 @@
   <h3 class="font-semibold text-lg line-clamp-4">{{item().title}}</h3>
   <div class="flex items-center justify-between gap-4">
     <div class="flex gap-4 items-center">
-      <div class="flex items-center gap-1 cursor-pointer" >
+      <div class="flex items-center gap-1 cursor-pointer">
         <img class="w-7 h-7" [src]="'assets/icons/images/ticket/types/' + ticketTypeInfo().icon"
           [alt]="ticketTypeInfo().description | translate" />
         <p class="font-semibold">{{ item().id }}</p>
       </div>
       <img class="w-6 h-6 cursor-default" [src]="'assets/icons/images/ticket/priorities/' + ticketPriorityInfo().icon"
-          [alt]="ticketPriorityInfo().description | translate" />
+        [alt]="ticketPriorityInfo().description | translate" />
     </div>
-    <p-avatar class="cursor-default" [image]="item().assignee.avatarUrl" shape="circle" [ariaLabel]="item().assignee.name"></p-avatar>
+    <p-avatar class="cursor-default" [image]="item().assignee.avatar" shape="circle"
+      [ariaLabel]="item().assignee.fullName"></p-avatar>
   </div>
 </div>

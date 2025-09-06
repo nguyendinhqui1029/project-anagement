@@ -15,7 +15,7 @@
         class="bg-status-{{item().status.toLowerCase()}} w-fit rounded-xl font-bold px-2 py-1 text-status-text-{{item().status.toLowerCase()}} text-sm">
         {{item().status.toLowerCase()| translate}}
       </p>
-      <p-avatar [image]="item().assignee.avatarUrl" shape="circle" [ariaLabel]="item().assignee.name"></p-avatar>
+      <p-avatar [image]="item().assignee.avatar" shape="circle" [ariaLabel]="item().assignee.fullName"></p-avatar>
 
     </div>
   </div>

@@ -1,17 +1,16 @@
-<div class="border-2 rounded-xl bg-white flex flex-col gap-4 p-4 mt-4">
+<div class="border-2 rounded-xl bg-white flex flex-col gap-4 p-4 mt-4 min-w-72">
   <div class="flex items-center justify-between">
     <h3 class="text-xl font-semibold">{{'project_management'| translate}}</h3>
     <q-lottie-icon class="cursor-pointer" width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/plus.json"
       (click)="handleOpenDialogAddProject()"></q-lottie-icon>
   </div>
-  <div class="grid grid-cols-[repeat(auto-fill,minmax(20rem,1fr))] gap-4">
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-4">
     @if(projectListResource.hasValue()) {
     @for (item of projectListResource.value().data; track item.id) {
-    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-1"
+    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-1 w-full"
       (click)="handleNavigateToProjectDetail(item.id)">
       <h4 class="text-lg font-semibold">{{item.name}}</h4>
       <div class="flex flex-col mb-2">
-
         <div class="flex items-center justify-between">
           <div class="flex gap-1 items-end">
             <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
