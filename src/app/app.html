@@ -1,1 +1,18 @@
+<p-confirmDialog>
+  <ng-template #headless let-message let-onAccept="onAccept" let-onReject="onReject" let-rejectButtonProps>
+    <div class="flex flex-col items-center p-4 gap-6">
+      <div class="flex flex-col items-center w-full gap-4">
+        <q-lottie-icon width="4rem" height="4rem"
+          iconSource="/assets/icons/animation/{{message.icon}}.json"></q-lottie-icon>
+        <p>{{ message.message }}</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <p-button [severity]="message.rejectButtonProps.severity" [label]="message.rejectButtonProps.label"
+          [outlined]="message.rejectButtonProps.outlined" (onClick)="onReject()" styleClass="w-20 min-w-fit"></p-button>
+        <p-button [severity]="message.acceptButtonProps.severity" [label]="message.acceptButtonProps.label"
+          [outlined]="message.acceptButtonProps.outlined" (onClick)="onAccept()" styleClass="w-20 min-w-fit"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmDialog>
 <router-outlet />

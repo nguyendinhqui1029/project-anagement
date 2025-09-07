@@ -25,7 +25,7 @@
     <label for="endDateId">{{endDateLabel()}}</label>
   </p-floatlabel>
   <div class="flex gap-1 items-center">
-    <p-checkbox inputId="isUnlimited" (onChange)="changeUnlimited($event)" [value]="dataRangeValue().isUnlimited"
+    <p-checkbox inputId="isUnlimited" (onChange)="changeUnlimited($event)" [(ngModel)]="dataRangeValue().isUnlimited"
       [binary]="true" />
     <label for="isUnlimited">{{'is_unlimited'| translate }}</label>
   </div>

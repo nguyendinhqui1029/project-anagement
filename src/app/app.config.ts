@@ -14,9 +14,12 @@ import { httpCacheInterceptor } from '@core/interceptor/http-cache.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    ConfirmationService,
+    DialogService,
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
@@ -60,9 +63,11 @@ export const appConfig: ApplicationConfig = {
     }),
     provideHttpClient(withFetch()),
     importProvidersFrom(
-      TranslateModule.forRoot({
+       TranslateModule.forRoot({
         defaultLanguage: 'en'
-      })),
+      }),
+      ConfirmDialogModule
+    ),
     provideTranslateHttpLoader({
       prefix: './assets/i18n/',
       suffix: '.json'
@@ -73,8 +78,6 @@ export const appConfig: ApplicationConfig = {
     provideCacheableAnimationLoader(),
     provideHttpClient(withInterceptors([httpCacheInterceptor])),
     provideAnimationsAsync('animations'),
-    ConfirmationService,
-    DialogService
   ]
 };
 

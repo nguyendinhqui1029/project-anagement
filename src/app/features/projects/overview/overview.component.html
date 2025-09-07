@@ -1,5 +1,5 @@
 <div class="flex rounded-xl flex-col min-h-fit">
-  <div class="mt-4 grid grid-cols-1 lg:grid-cols-6 grid-rows-[auto_auto_auto_auto_auto_auto] gap-4">
+  <div class="mt-4 grid grid-cols-1 lg:grid-cols-6 grid-rows-[auto_auto_auto_auto_auto_auto] gap-4 min-w-72">
     <!-- Project Overview -->
     <div class="bg-white rounded-2xl shadow p-4 lg:col-span-4">
       <q-header [isShowNavigate]="false" title="{{'project_overview'| translate}}"></q-header>
@@ -28,16 +28,16 @@
         title="{{'sprint_and_retro'| translate}}"></q-header>
       <div class="flex min-w-fit mt-2">
         <div class="w-full border-r-4 border-solid border-gray-200">
-          <h1 class="font-semibold">
+          <h4>
             Sprint 5
-          </h1>
+          </h4>
           <span class="text-gray-500">2 days until retro</span>
         </div>
         <div class="w-2/3 flex flex-col items-end min-w-fit">
           <span class="text-gray-500">Next retro</span>
-          <h1 class="font-semibold">
+          <h4>
             June 25
-          </h1>
+          </h4>
         </div>
       </div>
     </div>
@@ -55,28 +55,28 @@
           <div class="w-full flex gap-4 border-r-4 border-solid border-gray-200 p-2 flex-wrap">
             <div class="flex flex-col min-w-fit gap-2">
               <span class="text-gray-500">Test Coverage</span>
-              <h1 class="font-semibold">
+              <h4>
                 85%
-              </h1>
+              </h4>
             </div>
             <div class="flex flex-col min-w-fit gap-2">
               <span class="text-gray-500">Bug</span>
-              <h1 class="font-semibold">
+              <h4>
                 1000000
-              </h1>
+              </h4>
             </div>
             <div class="flex flex-col min-w-fit gap-2">
               <span class="text-gray-500">Running</span>
-              <h1 class="font-semibold">
+              <h4>
                 200000
-              </h1>
+              </h4>
             </div>
           </div>
           <div class="p-2 min-w-fit gap-2 flex flex-col">
             <span class="text-gray-500">Total test cases</span>
-            <h1 class="font-semibold">
+            <h4>
               20000
-            </h1>
+            </h4>
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@
       <div class="flex flex-col gap-2 mt-2">
         <div class="border-2 rounded-md  border-solid p-2 gap-1 flex items-end">
           <div class="flex gap-2 flex-col w-full">
-            <h3 class="font-semibold line-clamp-1">Sprint planning </h3>
+            <h4 class="line-clamp-1">Sprint planning </h4>
             <p class="text-xs text-gray-700">Today, 2:00 PM</p>
           </div>
           <div class="flex flex-col items-center justify-center min-w-fit">
@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="border-2 rounded-md  border-solid p-2 gap-1 flex flex-col">
-          <h3 class="font-semibold">Sprint planning</h3>
+          <h4>Sprint planning</h4>
           <p class="text-xs text-gray-700">Today, 2:00 PM</p>
         </div>
       </div>

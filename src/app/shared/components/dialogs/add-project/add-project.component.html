@@ -1,16 +1,17 @@
 <div>
   <div class="flex min-w-72 items-center justify-between py-4">
-    <h3 class="text-xl font-semibold">{{'add_project_header' | translate}}</h3>
+    <h3>{{'add_project_header' | translate}}</h3>
     <q-lottie-icon class="cursor-pointer" width="2rem" height="2rem" iconSource="/assets/icons/animation/close.json"
       (click)="closeDialog()"></q-lottie-icon>
   </div>
   <form [formGroup]="addProjectForm" class="flex gap-6 flex-col mt-4">
     <p-floatlabel variant="on">
-      <input formControlName="name" class="w-full" type="text" pInputText />
+      <input [autofocus]="true" formControlName="name" class="w-full" type="text" pInputText />
       <label for="projectName">{{'project_name' | translate}}</label>
     </p-floatlabel>
     <p-floatlabel variant="on">
-      <textarea formControlName="description" rows="3" class="w-full" pTextarea></textarea>
+      <textarea [ngClass]="{ 'p-filled': addProjectForm.get('description')?.value }" style="resize: none"
+        id="projectDescription" formControlName="description" rows="3" class="w-full" pInputTextarea></textarea>
       <label for="projectDescription">{{'project_description' | translate}}</label>
     </p-floatlabel>
     <q-date-range name="title" formControlName="projectTime" endDateLabel="{{'project_end_date'|translate}}"
@@ -36,7 +37,7 @@
       <label for="participants">{{'participants' | translate}}</label>
     </p-floatlabel>
     <div class="flex items-center justify-end">
-      <p-button (click)="handleSubmit()">{{'add_project_submit_button' | translate}}</p-button>
+      <p-button (click)="handleSubmit()">{{(project()?.id ? 'save':'add_project_submit_button') | translate}}</p-button>
     </div>
   </form>
 </div>

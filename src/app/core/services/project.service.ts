@@ -14,6 +14,11 @@ export class ProjectService {
     return this.http.post<ApiResponse<ProjectModel>>(`${environment.apiUrl}/project`,body)
   }
 
+  updateProject(id: number, body:ProjectRequestBody) {
+    return this.http.put<ApiResponse<ProjectModel>>(`${environment.apiUrl}/project/${id}`,body)
+  }
+
+
   deleteProject(id: number) {
     return this.http.delete<ApiResponse<ProjectModel>>(`${environment.apiUrl}/project/${id}`)
   }

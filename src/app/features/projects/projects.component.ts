@@ -25,7 +25,6 @@ import { ConfirmationService } from 'primeng/api';
     ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
-  providers: [ConfirmationService]
 })
 export class ProjectsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
@@ -62,14 +61,20 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       description: 'Hoàn tất dự án'
     }
   }));
-  projectListResource = httpResource<{status:number, data: ProjectModel[]}>(() => ({
+  projectListResource = httpResource<ApiResponse<ProjectModel[]>>(() => ({
     url:`${environment.apiUrl}/project`,
     method: 'GET',
     reportProgress: true,
     transferCache: true,
     keepalive: true,  
-    mode: 'cors', 
-  }));
+    mode: 'cors'
+  }), 
+  {
+    parse: (value)=>({
+      statusCode: (value as ApiResponse<ProjectModel[]>).statusCode,
+      data: (value as ApiResponse<ProjectModel[]>).data.sort((firstItem,secondeItem)=> new Date(secondeItem.createdAt).getTime() -  new Date(firstItem.createdAt).getTime())
+    })
+  });
 
   ngOnInit(): void {
     this.breadcrumbItems.setBreadcrumbItems([]);
@@ -80,7 +85,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.router.navigate(['/projects', id]);
   }
 
-  handleOpenDialogAddProject() {
+  handleOpenDialogUpsertProject(event: MouseEvent, project?: ProjectModel) {
+    event.stopPropagation();
     this.dynamicDialogRef = this.dialogService.open(AddProjectComponent, {
             showHeader: false,
             width: '55vw',
@@ -90,12 +96,28 @@ export class ProjectsComponent implements OnInit, OnDestroy {
                 '960px': '63vw',
                 '750px': '85vw',
                 '600px': '90vw'
-            }
+            },
+            data: {
+                project
+            },
       });
 
     this.dynamicDialogRef.onClose.subscribe((data: ApiResponse<ProjectModel>) => {
-      if(data?.statusCode === 200) {
-        this.projectListResource.reload();
+      if(data?.statusCode === 200) {        
+        this.projectListResource.update((value)=>{
+          const index = value!.data?.findIndex(item=>item.id === data.data.id);
+          if(index >= 0 && project) {
+            value?.data.splice(index,1, data.data);
+          }
+          if(!project) {
+            value?.data?.unshift(data.data)
+          }
+          
+          return {
+          statusCode: data.statusCode, 
+          data: value!.data
+        }
+        });
       }
     });
   }
@@ -105,6 +127,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     this.confirmationService.confirm({
             target: event.target as EventTarget,
             message: 'Are you sure that you want to proceed?',
+            icon: 'alert',
             closable: false,
             closeOnEscape: true,
             rejectButtonProps: {
@@ -118,13 +141,16 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             accept: () => {
               this.projectService.deleteProject(id).subscribe(response => {
                 if(response?.statusCode === 200) {
-                  this.projectListResource.reload();
+                 this.projectListResource.update((value)=>({
+                    statusCode: value!.statusCode, 
+                    data: value!.data.filter(project=>project.id !== id)
+                  }));
                 }
               })
             }
     });
   }
-
+  
   ngOnDestroy() {
     if (this.dynamicDialogRef) {
       this.dynamicDialogRef.close();

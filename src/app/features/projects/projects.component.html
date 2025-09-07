@@ -1,48 +1,44 @@
 <div class="border-2 rounded-xl bg-white flex flex-col gap-4 p-4 mt-4 min-w-72">
   <div class="flex items-center justify-between">
-    <h3 class="text-xl font-semibold">{{'project_management'| translate}}</h3>
+    <h3>{{'project_management'| translate}}</h3>
     <q-lottie-icon class="cursor-pointer" width="2.5rem" height="2.5rem" iconSource="/assets/icons/animation/plus.json"
-      (click)="handleOpenDialogAddProject()"></q-lottie-icon>
+      (click)="handleOpenDialogUpsertProject($event)"></q-lottie-icon>
   </div>
-  <div class="grid grid-cols-[repeat(auto-fill,minmax(14rem,1fr))] gap-4">
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4">
     @if(projectListResource.hasValue()) {
-    @for (item of projectListResource.value().data; track item.id) {
-    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-4 w-full"
+    @for (item of projectListResource.value().data; track item) {
+    <div class="border-2 rounded-xl p-2 flex flex-col cursor-pointer gap-2 w-full"
       (click)="handleNavigateToProjectDetail($event, item.id)">
       <div class="flex items-center justify-between">
-        <h4 class="text-lg font-semibold">{{item.name}}</h4>
-        <q-lottie-icon (click)="handleDeleteProject($event, item.id)" class="cursor-pointer" width="2.3rem"
-          height="2.3rem" iconSource="/assets/icons/animation/delete.json"></q-lottie-icon>
+        <h4>{{item.name}}</h4>
+        <span class="text-3xl" tooltipPosition="bottom" [pTooltip]="projectStatusOptions()[item.status].description"
+          tooltipEvent="hover">{{projectStatusOptions()[item.status].icon}}</span>
       </div>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col">
         <div class="flex items-center justify-between">
           <div class="flex gap-1 items-end">
             <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
               iconSource="/assets/icons/animation/team.json"></q-lottie-icon>
-            <span class="mb-1">{{item?.participants?.length}}</span>
+            <small class="mb-1">{{item?.participants?.length}}</small>
           </div>
-          <span class="text-3xl" tooltipPosition="bottom" [pTooltip]="projectStatusOptions()[item.status].description"
-            tooltipEvent="hover">{{projectStatusOptions()[item.status].icon}}</span>
+          <div class="flex gap-1 items-center">
+            <q-lottie-icon (click)="handleOpenDialogUpsertProject($event, item)" class="cursor-pointer" width="2.3rem"
+              height="2.3rem" iconSource="/assets/icons/animation/edit.json"></q-lottie-icon>
+            <q-lottie-icon (click)="handleDeleteProject($event, item.id)" class="cursor-pointer" width="2.3rem"
+              height="2.3rem" iconSource="/assets/icons/animation/delete.json"></q-lottie-icon>
+          </div>
+
         </div>
 
         <div class="flex gap-1 items-end">
           <q-lottie-icon class="cursor-pointer" width="2.3rem" height="2.3rem"
             iconSource="/assets/icons/animation/calendar.json"></q-lottie-icon>
-          <span>{{item.startDate|date:'yyyy-MM-dd'}} ~ {{item.endDate|date:'yyyy-MM-dd'}}</span>
+          <small>{{item.startDate|date:'yyyy-MM-dd'}} ~ {{item.endDate|date:'yyyy-MM-dd'}}</small>
         </div>
       </div>
       <p-progressbar [ariaLabel]="item.projectProgress" [value]="item.projectProgress" unit="%" />
     </div>
     }
     }
-
   </div>
 </div>
-<p-confirmDialog>
-  <ng-template #message let-message>
-    <div class="flex flex-col items-center w-full gap-4 mb-4">
-      <q-lottie-icon width="5rem" height="5rem" iconSource="/assets/icons/animation/alert.json"></q-lottie-icon>
-      <p>{{ message.message }}</p>
-    </div>
-  </ng-template>
-</p-confirmDialog>

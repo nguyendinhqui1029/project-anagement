@@ -5,12 +5,15 @@ import { BoardModel } from "@core/models/board.model";
 export interface ProjectModel {
   id: number;
   name: string;
+  description: string;
   status: ProjectStatus;
   participants: UserModel[];
   startDate: Date;
   endDate: Date;
+  isUnlimited: boolean;
   projectProgress: number;
   boards: BoardModel[];
+  createdAt: string;
 }
 
 export interface ProjectRequestBody {
