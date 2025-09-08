@@ -1,0 +1,72 @@
+<div class="flex flex-col border-2 border-solid rounded-xl overflow-hidden">
+  <div class="flex items-center justify-between p-2">
+    <h3>September 2025</h3>
+    <div class="flex gap-4 items-center">
+      <q-lottie-icon class="cursor-pointer" width="2.5rem" height="2.5rem"
+        iconSource="/assets/icons/animation/plus.json"></q-lottie-icon>
+      <span>Today</span>
+      <q-lottie-icon class="cursor-pointer" width="2.5rem" height="2.5rem"
+        iconSource="/assets/icons/animation/plus.json"></q-lottie-icon>
+    </div>
+  </div>
+
+  <div class="relative bg-white w-full max-h-[800px] overflow-auto">
+    <div class="grid grid-cols-[200px_1fr] grid-rows-[50px_1fr] min-w-[1200px]">
+
+      <!-- Góc trống -->
+      <div class="bg-white sticky top-0 left-0 z-20 border-b border-r"></div>
+
+      <!-- Header -->
+      <div class="flex sticky top-0 z-10 bg-white border-b overflow-x-hidden">
+        @for(day of days; track day) {
+        <div class="min-w-[150px] text-center border-r py-2">
+          {{ day }}
+        </div>
+        }
+
+      </div>
+
+      <!-- Sidebar (resources) -->
+      <div class="sticky left-0 bg-white border-r z-10">
+        @for(resource of resources; track resource) {
+        <div class="h-[80px] flex items-center border-b px-2">
+          {{ resource.name }}
+        </div>
+        }
+      </div>
+
+      <!-- Grid + DragDrop -->
+      <div class="relative overflow-hidden">
+        <div class="grid grid-cols-[repeat(7,150px)] auto-rows-[80px]">
+          @for(resource of resources; track resource) {
+          <ng-container>
+            @for(day of days; track day) {
+            <ng-container>
+              <div class="border-b border-r"></div>
+            </ng-container>
+            }
+          </ng-container>
+          }
+
+        </div>
+
+        <!-- Events theo resource -->
+        @for(resource of resources; track resource.id;let index = $index) {
+        <ng-container>
+          <div cdkDropList [id]="resource.id.toString()" [cdkDropListData]="resource.events" [style.top]="index*80+'px'"
+            class="absolute left-0 flex flex-row gap-2 w-full h-fit" style="min-height: 80px"
+            [cdkDropListConnectedTo]="connectedDropLists(resource.id.toString())"
+            (cdkDropListDropped)="onEventDropped($event)">
+            @for(event of resource.events; track event) {
+            <div cdkDrag class="bg-blue-300 px-2 py-1 rounded cursor-move" [style.width.px]="event.width">
+              {{ event.title }}
+            </div>
+            }
+          </div>
+        </ng-container>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>

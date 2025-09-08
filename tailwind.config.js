@@ -72,6 +72,20 @@ module.exports = {
           done: '#000000',
           closed: '#FFFFFF'
         }
+      },
+      keyframes: {
+        shake: {
+          '0%':   { transform: 'translateX(0) rotate(0deg)' },
+          '10%':  { transform: 'translateX(-4px) rotate(-6deg)' },
+          '30%':  { transform: 'translateX(4px) rotate(6deg)' },
+          '50%':  { transform: 'translateX(-2px) rotate(-3deg)' },
+          '70%':  { transform: 'translateX(2px) rotate(3deg)' },
+          '100%': { transform: 'translateX(0) rotate(0deg)' },
+        }
+      },
+      animation: {
+        'shake-once': 'shake 0.8s ease-in-out 1',
+        'shake': 'shake 0.8s ease-in-out infinite',
       }
     },
   },

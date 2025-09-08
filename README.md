@@ -1,80 +1,227 @@
-# ProjectAnagement
+# Software Development Project Management System
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.6.
+## Overview
 
-## Development server
+An AI-powered project management system designed to streamline software development workflows. This system enables organizations to manage multiple projects simultaneously while providing powerful tools for planning, tracking, and collaborating across different teams.
 
-To start a local development server, run:
+## Quick Start
+
+### System Requirements
+- Node.js (v18.x or higher)
+- npm (v9.x or higher)
+- Angular CLI (latest version)
+
+### Installation Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/nguyendinhqui1029/project-management.git
+   cd project-management/client
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start Development Server**
+   ```bash
+   ng serve
+   ```
+   Open your browser and navigate to `http://localhost:4200`
+
+## Core Features
+
+### 1. Project Dashboard
+- Real-time project status monitoring
+- Team performance analytics
+- Resource allocation overview
+- Sprint progress tracking
+- AI-generated insights and recommendations
+- Custom reporting tools
+
+### 2. Task Management
+- Interactive Kanban board with drag-and-drop
+- Automated task status updates via commit analysis
+- Smart todo lists with progress tracking
+- Task dependencies and relationships
+- Time tracking and estimation
+- Priority and status management
+
+### 3. Meeting Management
+- Meeting room booking system
+- AI-powered meeting summarization
+- Action item tracking and assignment
+- Calendar integration
+- Meeting templates and agendas
+- Video conferencing integration
+
+### 4. Timeline Management
+- Interactive Gantt charts
+- Resource capacity planning
+- Milestone tracking
+- Project dependencies
+- Critical path analysis
+- Timeline adjustments with drag-and-drop
+
+### 5. Quality Assurance
+- Test case creation and management
+- Automated test execution
+- Bug tracking and reporting
+- Test coverage analytics
+- Performance metrics
+- Quality gates and checkpoints
+
+### 6. AI Integration Features
+- Smart commit analysis for task updates
+- Automated meeting summarization
+- Project timeline predictions
+- Resource optimization suggestions
+- Code quality assessment
+- Risk prediction and mitigation
+
+## Team Roles and Access
+
+### Project Manager
+- Project planning and tracking
+- Resource allocation
+- Sprint management
+- Team coordination
+- Performance monitoring
+
+### Planning Team
+- Requirements gathering
+- UI/UX design
+- Timeline planning
+- Resource estimation
+
+### Frontend Team
+- UI implementation
+- Component development
+- User experience enhancement
+- Frontend testing
+
+### Backend Team
+- API development
+- Database management
+- System architecture
+- Performance optimization
+
+### QA Team
+- Test planning
+- Test execution
+- Bug reporting
+- Quality metrics tracking
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── core/                 # Core functionality
+│   │   ├── constants/        # Application constants
+│   │   ├── guards/          # Route guards
+│   │   ├── interceptors/    # HTTP interceptors
+│   │   ├── models/          # Data models
+│   │   └── services/        # Core services
+│   ├── features/            # Feature modules
+│   │   ├── dashboard/       # Dashboard components
+│   │   ├── projects/        # Project management
+│   │   ├── meetings/        # Meeting management
+│   │   ├── tasks/          # Task management
+│   │   └── qa/             # Quality assurance
+│   ├── shared/             # Shared components
+│   └── layout/             # Layout components
+```
+
+## Development Guide
+
+### Common Commands
 
 ```bash
+# Development server
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# Production build
+ng build --configuration production
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
+# Run tests
 ng test
+
+# Generate components
+ng generate component features/[feature-name]/[component-name]
+
+# Generate services
+ng generate service features/[feature-name]/[service-name]
 ```
 
-## Running end-to-end tests
+### Code Style Guidelines
 
-For end-to-end (e2e) testing, run:
+- Follow Angular style guide
+- Use TypeScript strict mode
+- Implement lazy loading for modules
+- Create reusable components
+- Write comprehensive tests
+- Document complex logic
 
-```bash
-ng e2e
-```
+### Git Workflow
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+1. **Branch Naming**
+   - feature/[feature-name]
+   - bugfix/[bug-description]
+   - hotfix/[issue-description]
 
-## Additional Resources
+2. **Commit Messages**
+   - feat: New feature
+   - fix: Bug fix
+   - docs: Documentation
+   - style: Formatting
+   - refactor: Code restructuring
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Configuration
 
+### Environment Setup
+- Development environment
+- Staging environment
+- Production environment
+- API endpoints
+- Feature flags
+- Authentication settings
 
-// Mô tả dự án:
-+ Đây là dự án phần mền quản lý quy trình phát triển phần mềm. Phần mềm quản lý các bộ phận như:
-  + Bộ phận lên kế hoạch (Planner): Đây là nhóm viết yêu cầu phần mềm và thiết kế giao diên.
-  + Bộ phận quản lý dự án (Project manager): Chuyên quản lí về thành viên trong dự án, tiến độ công việc, phân bổ nhiêmj vụ và lên kế hoạch.
-  + Bộ phận Frontend: Nhận yêu cầu và phát triển phần mềm phía giao diện
-  + Bộ phận Backend: Nhận yêu cầu và phát triền API.
-  + Bộ phận QA: Kiểm thử phần mềm.
-Sau đây là một số tính năng cần thiết:
-  + Màn hình login và phân quyền.
-  + Dashboard để theo dõi tình hình phát triển của dự án.
-  + Tính năng retro spective theo thời gian PM setup (2tuần/lần, 3tuần/lần).
-  + Tính năng book phòng hợp và dùng AI để tổng hợp lại nội dung cuộc hợp.
-  + Tính năng tạo timeline công việc cho các thành viên. có thể kéo thả, view, search, group
-  + Tính năng kiểm tra commit code của dev và chuyển status của ticket. Mỗi ticket có phần todo list nếu như trong commit có nôi dung đó todo list tự động check và tính tỉ lệ phần trăm hoành thành và cập nhật report.
-  + Tính năng tạo và quản lí ticket
-  + Tính năng tạo, quản lí và run test case ( Phần này phục vụ cho team QA)
+### Third-party Integrations
+- Version control systems
+- CI/CD pipelines
+- Cloud services
+- Monitoring tools
+- Analytics platforms
 
-bên trên là ý tưởng sơ bộ của tôi bạn hay dự vào yêu cầu trên viết lại ý tưởng và đưa ra những menu cần thiết, những nội dung bạn thấy cần thiết cho phần dashboard và quản lí task. mở rộng thêm mỗi người có thể tham gia nhiều dự án
-  Tận dụng AI nhiều nhất có thể. Mỗi công ty có nhiều dự án và mỗi người có thể tham gia nhiều dự án hãy thiết kế để đáp ứng điều này
+## Deployment
+
+1. **Build Application**
+   ```bash
+   ng build --configuration production
+   ```
+
+2. **Deploy to Server**
+   - Follow organization's deployment procedures
+   - Update environment variables
+   - Run database migrations
+   - Verify application status
+
+## Support and Documentation
+
+### Getting Help
+1. Check the documentation in `/docs`
+2. Create an issue in the repository
+3. Contact the development team
+
+### Additional Resources
+- Angular documentation
+- Project wiki
+- API documentation
+- Testing guidelines
+- Deployment guides
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
