@@ -1,11 +1,14 @@
-<nav class="h-[calc(100vh-2rem)] sticky top-4 bottom-4 left-0 z-10  flex flex-col border-2 border-solid rounded-xl p-2 gap-2 bg-white">
+<nav
+  class="h-[calc(100vh-2rem)] sticky top-4 bottom-4 left-0 z-10 min-h-fit flex flex-col border-2 border-solid rounded-xl p-2 gap-2 bg-white">
   @for (item of menuItems(); track item.id) {
-    <a class="flex items-center w-full rounded-md cursor-pointer hover:bg-gray-200  hover:text-black p-1 transition-all duration-300 ease-in-out" 
-      routerLinkActive="bg-tw-primary-500 text-white"
-      [routerLinkActiveOptions]="{ exact: false }"
-      [routerLink]="item.path">
-      <q-lottie-icon containerMinWidth="2.5rem"  width="2.5rem" height="2.5rem" [iconSource]="item.iconUrl"></q-lottie-icon>
-      <p [class.hidden]="!sidebarStatus()"  class="ml-2 overflow-hidden transition-all duration-300 ease-in-out flex items-center text-nowrap text-xl">{{item.name}}</p>
-    </a>
+  <a class="flex items-center w-full rounded-md cursor-pointer hover:bg-gray-200  hover:text-black p-1 transition-all duration-300 ease-in-out"
+    routerLinkActive="bg-tw-primary-500 text-white" [routerLinkActiveOptions]="{ exact: false }"
+    [routerLink]="item.path">
+    <q-lottie-icon containerMinWidth="2.5rem" width="2.5rem" height="2.5rem"
+      [iconSource]="item.iconUrl"></q-lottie-icon>
+    <p [class.hidden]="!sidebarStatus()"
+      class="ml-2 overflow-hidden transition-all duration-300 ease-in-out flex items-center text-nowrap text-xl">
+      {{item.name}}</p>
+  </a>
   }
 </nav>

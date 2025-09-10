@@ -1,13 +1,13 @@
 <div class="cursor-grab flex flex-col gap-4 rounded-md bg-white p-2 shadow-md border-2">
-  <h3 class="line-clamp-4">{{item().title}}</h3>
+  <h4 class="line-clamp-4">{{item().title}}</h4>
   <div class="flex items-center justify-between gap-4">
     <div class="flex gap-4 items-center">
       <div class="flex items-center gap-1 cursor-pointer">
-        <img class="w-7 h-7" [src]="'assets/icons/images/ticket/types/' + ticketTypeInfo().icon"
+        <img class="w-5 h-5" [src]="'assets/icons/images/ticket/types/' + ticketTypeInfo().icon"
           [alt]="ticketTypeInfo().description | translate" />
         <p class="font-semibold">{{ item().id }}</p>
       </div>
-      <img class="w-6 h-6 cursor-default" [src]="'assets/icons/images/ticket/priorities/' + ticketPriorityInfo().icon"
+      <img class="w-5 h-5 cursor-default" [src]="'assets/icons/images/ticket/priorities/' + ticketPriorityInfo().icon"
         [alt]="ticketPriorityInfo().description | translate" />
     </div>
     <p-avatar class="cursor-default" [image]="item().assignee.avatar" shape="circle"

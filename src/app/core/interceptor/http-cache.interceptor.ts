@@ -9,6 +9,10 @@ export const httpCacheInterceptor: HttpInterceptorFn = (req, next) => {
       return next(req);
     }
 
+    if (!req.urlWithParams.endsWith('.json')) {
+      return next(req);
+    }
+
     const cachedResponse = cacheService.get(req.urlWithParams);
     if (cachedResponse) {
       return of(new HttpResponse({ status: 200, body: cachedResponse }));

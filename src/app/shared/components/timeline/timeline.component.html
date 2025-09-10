@@ -52,18 +52,18 @@
 
         <!-- Events theo resource -->
         @for(resource of resources; track resource.id;let index = $index) {
-        <ng-container>
-          <div cdkDropList [id]="resource.id.toString()" [cdkDropListData]="resource.events" [style.top]="index*80+'px'"
-            class="absolute left-0 flex flex-row gap-2 w-full h-fit" style="min-height: 80px"
-            [cdkDropListConnectedTo]="connectedDropLists(resource.id.toString())"
-            (cdkDropListDropped)="onEventDropped($event)">
-            @for(event of resource.events; track event) {
-            <div cdkDrag class="bg-blue-300 px-2 py-1 rounded cursor-move" [style.width.px]="event.width">
-              {{ event.title }}
-            </div>
-            }
+        <div cdkDropList [id]="resource.id.toString()" [cdkDropListData]="resource.events" [style.top.px]="index*80"
+          class="absolute z-2 left-0 w-full h-fit" style="min-height: 80px"
+          [cdkDropListConnectedTo]="connectedDropLists(resource.id.toString())"
+          (cdkDropListDropped)="onEventDropped($event)">
+          @for(event of resource.events; track event;let eventIndex = $index) {
+          <div cdkDrag class="absolute z-4 bg-blue-300 px-2 py-1 rounded cursor-move h-fit" [cdkDragData]="event"
+            (cdkDragEnded)="onEventDragEnd($event, resource, event, eventIndex)" [style.top.px]="event.top"
+            [style.left.px]="event.left" [style.width.px]="event.width">
+            {{ event.title }} {{event.left}}
           </div>
-        </ng-container>
+          }
+        </div>
         }
       </div>
     </div>
