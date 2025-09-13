@@ -60,7 +60,7 @@
           <div cdkDrag class="absolute z-4 bg-blue-300 px-2 py-1 rounded cursor-move h-fit" [cdkDragData]="event"
             (cdkDragEnded)="onEventDragEnd($event, resource, event, eventIndex)" [style.top.px]="event.top"
             [style.left.px]="event.left" [style.width.px]="event.width">
-            {{ event.title }}
+            {{ event.title }} {{event.left}}
           </div>
           }
         </div>

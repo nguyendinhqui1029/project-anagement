@@ -225,3 +225,172 @@ ng generate service features/[feature-name]/[service-name]
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Config rule commit code to git
+
+  git config branch.apiUrl "https://[::1]:3000/api/v1/ticket"
+  git config branch.apiToken "10011997"
+
+  # 1 Tạo hook pre-commit
+    Step 1: cd /path/to/your-repo/.git/hooks
+    Step 2: touch pre-commit
+    Step 3: Copy content vào file: 
+        #!/bin/sh
+        new_branch=$(git rev-parse --abbrev-ref HEAD)
+        # 1. Check input
+        if [ -z "$new_branch" ]; then
+          echo "❌ Missing branch name. Example: git new-branch feature/123/login"
+          exit 1
+        fi
+
+        # 2. Validate format
+        if ! echo "$new_branch" | grep -Eq '^(feature|bugfix|improve)/[0-9]+/[a-z0-9\-]+$'; then
+          echo "❌ Branch '$new_branch' is invalid."
+          echo "👉 Format must be: feature|bugfix|improve/123/branch-title"
+          exit 1
+        fi
+
+        # 3. API config (ưu tiên env, fallback sang git config)
+        API_URL="${BRANCH_TICKET_API_URL:-$(git config branch.apiUrl)}"
+        API_TOKEN="${BRANCH_TICKET_API_TOKEN:-$(git config branch.apiToken)}"
+
+        if [ -z "$API_URL" ] || [ -z "$API_TOKEN" ]; then
+          echo "❌ Missing API config"
+          echo "👉 Set via git config (branch.apiUrl & branch.apiToken) or env (BRANCH_TICKET_API_URL & BRANCH_TICKET_API_TOKEN)"
+          exit 1
+        fi
+
+        # 4. Extract ticket id
+        ticket=$(echo "$new_branch" | cut -d'/' -f2)
+
+        # 5. Call API
+        if [ -n "$API_TOKEN" ]; then
+          resp=$(curl -s -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
+        else
+          resp=$(curl -s "$API_URL/$ticket")
+        fi
+
+        # 6. Parse JSON bằng jq
+        id=$(echo "$resp" | jq -r '.data.id // empty')
+
+        if [ -z "$id" ]; then
+          echo "❌ Ticket $ticket is not valid according to the service"
+          echo "Response: $resp"
+          exit 1
+        fi
+
+        echo "✅ Branch is valid: $branch"
+        exit 0
+    Step 4: Cấp quyên thực thi file: chmod +x pre-commit
+  
+  # 2 Tạo hook pre-push
+    Step 1: cd /path/to/your-repo/.git/hooks
+    Step 2: touch pre-push
+    Step 3: Copy content vào file: 
+        #!/bin/sh
+        # Lấy branch hiện tại
+        branch=$(git rev-parse --abbrev-ref HEAD)
+
+        # Regex check
+        if ! echo "$branch" | grep -Eq '^(feature|bugfix|improve)/[0-9]+/[a-z0-9\-]+$'; then
+          echo "❌ Branch '$branch' is invalid."
+          echo "Format: feature|bugfix|improve/123/branch-title"
+          exit 1
+        fi
+
+        # Ưu tiên lấy từ env, nếu không có thì lấy từ git config
+        API_URL="${BRANCH_TICKET_API_URL:-$(git config branch.apiUrl)}"
+        API_TOKEN="${BRANCH_TICKET_API_TOKEN:-$(git config branch.apiToken)}"
+
+        # Check config
+        if [ -z "$API_URL" ] || [ -z "$API_TOKEN" ]; then
+          echo "❌ Missing API config (use git config branch.apiUrl & branch.apiToken or set env BRANCH_TICKET_API_URL & BRANCH_TICKET_API_TOKEN)"
+          exit 1
+        fi
+
+        # Lấy ticket ID (số giữa /123/)
+        ticket=$(echo "$branch" | cut -d'/' -f2)
+
+        # Call API
+        if [ -n "$API_TOKEN" ]; then
+          resp=$(curl -s -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
+        else
+          resp=$(curl -s "$API_URL/$ticket")
+        fi
+
+        # Extract ID bằng jq
+        id=$(echo "$resp" | jq -r '.data.id // empty')
+
+        if [ -z "$id" ]; then
+          echo "❌ Ticket $ticket is not valid according to the service"
+          echo "Response: $resp"
+          exit 1
+        fi
+
+        echo "✅ Valid branch: $branch (Ticket ID: $id)"
+        exit 0
+    Step 4: Cấp quyên thực thi file: chmod +x pre-push
+
+  # 3 Test hook
+    + git commit --allow-empty -m "test hook"
+    + git push hoặc git commit
+
+
+  # Git config file
+  [alias]
+  new-branch = "!f() { \
+    new_branch=\"$1\"; \
+    if [ -z \"$new_branch\" ]; then \
+      echo '❌ Missing branch name. Example: git new-branch feature/123/login'; \
+      exit 1; \
+    fi; \
+    if ! echo \"$new_branch\" | grep -Eq '^(feature|bugfix|improve)/[0-9]+/[a-z0-9\\-]+$'; then \
+      echo \"❌ Branch '$new_branch' is invalid. Format: feature|bugfix|improve/123/branch-title\"; \
+      exit 1; \
+    fi; \
+    API_URL=\"${BRANCH_TICKET_API_URL:-$(git config branch.apiUrl)}\"; \
+    API_TOKEN=\"${BRANCH_TICKET_API_TOKEN:-$(git config branch.apiToken)}\"; \
+    if [ -z \"$API_URL\" ] || [ -z \"$API_TOKEN\" ]; then \
+      echo '❌ Missing API config (use git config branch.apiUrl & branch.apiToken or set env BRANCH_TICKET_API_URL & BRANCH_TICKET_API_TOKEN)'; \
+      exit 1; \
+    fi; \
+    ticket=$(echo \"$new_branch\" | cut -d'/' -f2); \
+    if [ -n \"$API_TOKEN\" ]; then resp=$(curl -vk -H \"Authorization: Bearer $API_TOKEN\" \"$API_URL/$ticket\"); else resp=$(curl -vk \"$API_URL/$ticket\"); fi; \
+    id=$(echo \"$resp\" | jq -r '.data.id // empty'); \
+    if [ -z \"$id\" ]; then \
+      echo \"❌ Ticket $ticket is not valid according to the service\"; \
+      exit 1; \
+    fi; \
+    echo \"✅ Valid branch: $new_branch\"; \
+    git checkout -b \"$new_branch\"; \
+  }; f"
+
+  checkout-branch = "!f() { \
+    branch=\"$1\"; \
+    if [ -z \"$branch\" ]; then \
+      echo '❌ Missing branch name. Example: git checkout-branch feature/123/login'; \
+      exit 1; \
+    fi; \
+    if ! echo \"$branch\" | grep -Eq '^(feature|bugfix|improve)/[0-9]+/[a-z0-9\\-]+$'; then \
+      echo \"❌ Branch '$branch' is invalid. Format: feature|bugfix|improve/123/branch-title\"; \
+      exit 1; \
+    fi; \
+    API_URL=\"${BRANCH_TICKET_API_URL:-$(git config branch.apiUrl)}\"; \
+    API_TOKEN=\"${BRANCH_TICKET_API_TOKEN:-$(git config branch.apiToken)}\"; \
+    if [ -z \"$API_URL\" ] || [ -z \"$API_TOKEN\" ]; then \
+      echo '❌ Missing API config (use git config branch.apiUrl & branch.apiToken or set env BRANCH_TICKET_API_URL & BRANCH_TICKET_API_TOKEN)'; \
+      exit 1; \
+    fi; \
+    ticket=$(echo \"$new_branch\" | cut -d'/' -f2); \
+    if [ -n \"$API_TOKEN\" ]; then resp=$(curl -vk -H \"Authorization: Bearer $API_TOKEN\" \"$API_URL/$ticket\"); else resp=$(curl -vk \"$API_URL/$ticket\"); fi; \
+    id=$(echo \"$resp\" | jq -r '.data.id // empty'); \
+    if [ -z \"$id\" ]; then \
+      echo \"❌ Ticket $ticket is not valid according to the service\"; \
+      exit 1; \
+    fi; \
+    echo \"✅ Valid branch: $branch\"; \
+    git checkout \"$branch\"; \
+  }; f"
+[branch]
+	apiUrl = https://[::1]:3000/api/v1/ticket
+	apiToken = 10011997
