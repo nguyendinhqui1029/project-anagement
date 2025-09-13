@@ -265,9 +265,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
         # 5. Call API
         if [ -n "$API_TOKEN" ]; then
-          resp=$(curl -s -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
+          resp=$(curl -vk -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
         else
-          resp=$(curl -s "$API_URL/$ticket")
+          resp=$(curl -vk "$API_URL/$ticket")
         fi
 
         # 6. Parse JSON bằng jq
@@ -313,9 +313,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
         # Call API
         if [ -n "$API_TOKEN" ]; then
-          resp=$(curl -s -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
+          resp=$(curl -vk -H "Authorization: Bearer $API_TOKEN" "$API_URL/$ticket")
         else
-          resp=$(curl -s "$API_URL/$ticket")
+          resp=$(curl -vk "$API_URL/$ticket")
         fi
 
         # Extract ID bằng jq
